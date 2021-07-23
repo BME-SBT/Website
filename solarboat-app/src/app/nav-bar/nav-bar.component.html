@@ -102,6 +102,9 @@
             <li *ngIf="authority" class="nav-item">
                 <a class="nav-link" routerLink="/mainpage" (click)="logout()">Logout</a>
             </li>
+            <li *ngIf="!authority" class="nav-item">
+                <a translate class="nav-link" href="https://www.instagram.com/bme_solar_team/?hl=hu" target="blank" >COVER.join_us</a>
+            </li>
         </ul>
     </div>
     <ul class="nav">

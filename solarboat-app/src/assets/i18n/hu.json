@@ -13,7 +13,8 @@
   "gallery": "galéria"
 },
   "COVER": {
-    "solarPower": "Jelenlegi napsütésben {{ watts }} Wattot termel a hajó"
+    "solarPower": "Jelenlegi napsütésben {{ watts }} Wattot termel a hajó",
+    "join_us": "csatlakozz"
   },
   "ABOUT_US": {
     "about_us":"rólunk",
