@@ -12,3 +12,9 @@ ALTER TABLE db_solarboat.member MODIFY job_hu NVARCHAR(50) NULL;
 # DROP TABLE db_solarboat.team_members;
 # DROP TABLE db_solarboat.team;
 #  DROP TABLE db_solarboat.news;
+
+SET SQL_SAFE_UPDATES = 0;
+UPDATE db_solarboat.sponsor
+SET order_number = 2
+WHERE group_id = 4;
+sET SQL_SAFE_UPDATES = 1;

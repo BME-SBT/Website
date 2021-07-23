@@ -60,7 +60,9 @@ export class SponsorsComponent implements OnInit {
                     (s) => (s.picture = "../../assets/sponsors/".concat(s.picture))
                 );
                 this.allSponsors.uni.forEach(
-                    (s) => (s.picture = "../../assets/sponsors/".concat(s.picture))
+                    (s) => {(s.picture = "../../assets/sponsors/".concat(s.picture));
+                    console.log(this.allSponsors.uni);
+                }
                 );
                 this.allSponsors.other.forEach(
                     (s) => (s.picture = "../../assets/sponsors/".concat(s.picture))
@@ -84,12 +86,13 @@ export class SponsorsComponent implements OnInit {
         this.bme = this.allSponsors.uni.filter((s) => s.row == 1)[0];
         this.uni = [];
         for (let i = 2; i < 10; i++) {
-            let t: Sponsor[] = this.allSponsors.uni.filter(
-                (s) => s.group === "UNI" && s.row === i
+            var t: Sponsor[] = this.allSponsors.uni.filter(
+                s => s.row == i
             );
-            if (t != undefined) {
+            console.log(t)
+         //   if (t) {
                 this.uni.push(t);
-            }
+          //  }
         }
     }
 
