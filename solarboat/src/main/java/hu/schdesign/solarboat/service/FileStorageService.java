@@ -176,9 +176,11 @@ public class FileStorageService {
                 File file = new File(filePath.toString());
                 boolean b = file.delete();
 
-            } else {
-                throw new MyFileNotFoundException("File not found " + fileName);
             }
+//            Ha nem létezik a fájl akkor simán törölhető az adatbázisból
+//            else {
+//                throw new MyFileNotFoundException("File not found " + fileName);
+//            }
         } catch (MalformedURLException ex) {
             throw new MyFileNotFoundException("File not found " + fileName, ex);
         }

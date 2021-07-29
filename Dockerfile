@@ -1,4 +1,4 @@
-FROM node:14.0-stretch AS frontend-build
+FROM node:12.14-stretch AS frontend-build
 WORKDIR /usr/src/app
 RUN npm install -g @angular/cli
 COPY solarboat-app/package.json ./
@@ -24,7 +24,6 @@ RUN /etc/init.d/mysql start && mvn -f pom.xml package
 
 VOLUME /var/www/html/assets
 VOLUME solarboat-app/src/assets
-
 
 EXPOSE 8080
 
