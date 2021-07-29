@@ -86,7 +86,8 @@ export class GalleryComponent implements OnInit {
 
     }
 
-    uploadGalleryPicture(empForm: any) {
+    uploadGalleryPicture(event, empForm: any) {
+
         if (this.newPicture.title_hu == null) {
             //this.newPicture.title_hu = ' ';
         }
@@ -95,6 +96,7 @@ export class GalleryComponent implements OnInit {
         }
         this.pictureService.postGalleryPicture(this.newPicture).subscribe(
             (data) => {
+                event.preventDefault();
                 // do something, if upload success
                 //this.uploadFileToActivity();
                 this.newPicture = new GalleryPictureRequest();
@@ -107,6 +109,7 @@ export class GalleryComponent implements OnInit {
             }
         );
         empForm.reset();
+
     }
 
     loadGallery() {

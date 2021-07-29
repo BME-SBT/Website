@@ -1,0 +1,297 @@
+{
+  "leaders": {
+    "name_hu": "Vezetőség",
+    "name_en": "Management",
+    "description_en": "string",
+    "description_hu": "string",
+    "id": 0,
+    "leader": {
+      "id": 0,
+      "firstName": "Szilárd",
+      "lastName": "Czibere",
+      "job_hu": "Csapatkapitány",
+      "job_en": "Team leader",
+      "picture": "czibere-szilard",
+      "linkedin": "https://hu.linkedin.com/in/szil%C3%A1rd-czibere-861b7b185"
+    },
+    "members": [
+      {
+        "id": 1,
+        "firstName": "Dávid",
+        "lastName": "Martini",
+        "job_hu": "Elektronikai csoportvezető",
+        "job_en": "Electronic group leader",
+        "picture": "martini-david",
+        "linkedin": "https://www.linkedin.com/in/d%C3%A1vid-martini-a159621ab/"
+      },
+      {
+        "id": 2,
+        "firstName": "Viktória",
+        "lastName": "Domaniczki",
+        "job_hu": "Gazdasági vezető",
+        "job_en": "Financial group leader",
+        "picture": "domaniczki-viktoria",
+        "linkedin": "https://www.linkedin.com/in/vikt%C3%B3ria-domaniczki-6a8798186/"
+      },
+      {
+        "id": 3,
+        "firstName": "Ábel",
+        "lastName": "Visnyei",
+        "job_hu": "Gépészeti vezető",
+        "job_en": "Mechanical group leader",
+        "picture": "visnyei-abel",
+        "linkedin": "https://hu.linkedin.com/in/%C3%A1bel-visnyei-b290951a4?fbclid=IwAR1DcN1YBqSiqE81JAfn4nefhsih76f2I7mccJOjsY7a1MCf2v2WnrFhqxk"
+      },
+      {
+        "id": 4,
+        "firstName": "András",
+        "lastName": "Pintér",
+        "job_hu": "Anyagtechnológia csoportvezető",
+        "job_en": "Material Science group leader",
+        "picture": "pinter-andras",
+        "linkedin": "string"
+      },
+      {
+        "id": 5,
+        "firstName": "Ákos",
+        "lastName": "Tóth",
+        "job_hu": "Műhelyvezető",
+        "job_en": "Workshop leader",
+        "picture": "toth-akos",
+        "linkedin": "string"
+      }
+    ],
+    "teamType": 1
+  },
+  "electronics": {
+    "name_hu": "Elektronikai csoport",
+    "name_en": "Electronic group",
+    "description_hu": "Az elektronikai csoport két részegységből áll: Elektrotechnika és Informatika. Az elektronikai csoport legfontosabb feladatai a hajó energia ellátásának a biztosítása és monitorozása. Számos villamos energetikai, valamint informatikai projekt köthető a csoporthoz, mint például akkumulátor design, töltésvezérlés tervezése, szenzorok közötti kommunikáció vagy a csapat weboldalának fejlesztése és karbantartása. A 2020-as versenyszezontól a csapat nagy figyelmet fordít a felhő alapú IoT technológiákban rejlő lehetőségekre is.",
+    "description_en": "The electronic group consists of two parts: Electrical Engineering and Computer Science. The most important tasks of the this group are to maintain and monitor the energy supply of the boat. The electric group deals with electrical power or software design projects, such as battery design, charge control design, sensor-to-sensor communication or website development and maintenance. From the 2020 racing season, the team will also pay close attention to the potential of cloud-based IoT technologies.",
+    "id": 0,
+    "leader": {
+      "id": 11,
+      "firstName": "Dávid",
+      "lastName": "Martini",
+      "job_hu": "string",
+      "job_en": "string",
+      "picture": "martini-david",
+      "linkedin": "https://www.linkedin.com/in/d%C3%A1vid-martini-a159621ab/"
+    },
+    "members": [
+      {
+        "id": 12,
+        "firstName": "Bálint",
+        "lastName": "Bak",
+        "picture": "bak-balint",
+        "job_hu": "string",
+        "job_en": "string",
+        "linkedin": "https://www.linkedin.com/in/b%C3%A1lint-bak-5b306b204/"
+      },
+      {
+        "id": 13,
+        "firstName": "Levente",
+        "lastName": "Ludmann",
+        "picture": "ludmann-levente",
+        "job_hu": "string",
+        "job_en": "string",
+        "linkedin": "string"
+      },
+      {
+        "id": 14,
+        "firstName": "Péter",
+        "lastName": "Tömöri",
+        "picture": "tomori-peter",
+        "job_hu": "string",
+        "job_en": "string",
+        "linkedin": "string"
+      },
+      {
+        "id": 15,
+        "firstName": "Virág",
+        "lastName": "Dörner",
+        "picture": "dorner-virag",
+        "job_hu": "string",
+        "job_en": "string",
+        "linkedin": "https://www.linkedin.com/in/vir%C3%A1g-d%C3%B6rner-598611203/"
+      },
+      {
+        "id": 16,
+        "firstName": "Sára",
+        "lastName": "Sinkó",
+        "picture": "sinko-sara",
+        "job_hu": "string",
+        "job_en": "string",
+        "linkedin": "string"
+      }
+    ],
+    "teamType": 2
+  },
+  "economics": {
+    "name_hu": "Gazdasági csoport",
+    "name_en": "Economic group",
+    "description_hu": "A Gazdasági csoport további két részegységre tagolható: Pénzügy & Stratégia és Business Marketing. A Gazdasági csoport fő feladatai közé tartozik a csapat költségvetésének kezelése, illetve a marketing tevékenységek ellátása. Ezek mellett a megjelenések és a csapatépítő programok megszervezése is részét képezi a csapat tevékenységeinek.",
+    "description_en": "The Economic Group can be further divided into two divisions: Finance & Strategy and Business Marketing. The main tasks of the Economic Group are managing the budget of the team and performing marketing activities. In addition to these, the organization of appearances and team building programs are also part of the team’s activities.",
+    "id": 0,
+    "leader": {
+      "id": 0,
+      "firstName": "Viktória",
+      "lastName": "Domaniczki",
+      "job_hu": "Gazdasági vezető",
+      "job_en": "Financial group leader",
+      "picture": "domaniczki-viktoria",
+      "linkedin": "https://www.linkedin.com/in/vikt%C3%B3ria-domaniczki-6a8798186/"
+    },
+    "members": [
+      {
+        "id": 2,
+        "firstName": "Szilárd",
+        "lastName": "Czibere",
+        "job_hu": "string",
+
+        "job_en": "string",
+        "picture": "czibere-szilard",
+        "linkedin": "https://hu.linkedin.com/in/szil%C3%A1rd-czibere-861b7b185"
+      },
+      {
+        "id": 2,
+        "firstName": "Laura",
+        "lastName": "Fór",
+        "picture": "for-laura",
+        "job_hu": "string",
+        "job_en": "string",
+        "linkedin": "string"
+      },
+      {
+        "id": 2,
+        "firstName": "Zsófia",
+        "lastName": "Dombóvári",
+        "picture": "dombovari-zsofi",
+        "job_hu": "string",
+        "job_en": "string",
+        "linkedin": "https://www.linkedin.com/in/zs%C3%B3fia-dombov%C3%A1ri-503618176/"
+      }
+    ],
+    "teamType": 3
+  },
+  "mechatronics": {
+    "name_hu": "Gépészeti csoport",
+    "name_en": "Mechanical engineering group",
+    "description_en": "The mechanical group has two parts: Materials Science and Design & Simulation.",
+    "description_hu": "A gépészeti csoportban két részegység található: Anyagtechnológia és Konstrukciós tervezés & Szimuláció.",
+    "id": 0,
+    "leader": null,
+    "members": [],
+    "teamType": 4
+  },
+  "mechatronics_material": {
+    "name_hu": "Anyagtechnológiai csoport",
+    "name_en": "Material Technology group",
+    "description_hu": "Az Anyagtechnológiai csoport feladatai közé tartozik a különböző elemekhez szükséges gyártástechnológia és anyaghasználat megválasztása, illetve a gyártás kivitelezése",
+    "description_en": "The material science group is responsible for the production of products that have already been designed and validated by simulation. In addition to the planning and production. we also place high importance on the appropriate material technology.",
+    "id": 0,
+    "leader": {
+      "id": 0,
+      "firstName": "András",
+      "lastName": "Pintér",
+      "picture": "pinter-andras",
+      "job_hu": "string",
+      "job_en": "string",
+      "linkedin": "string"
+    },
+    "members": [
+      {
+        "id": 2,
+        "firstName": "András",
+        "lastName": "Sinkó",
+        "picture": "sinko-andras",
+        "job_hu": "string",
+        "job_en": "string",
+        "linkedin": "https://www.linkedin.com/in/andr%C3%A1s-sink%C3%B3-15b390150/"
+      },
+      {
+        "id": 2,
+        "firstName": "Alexszisz",
+        "lastName": "Szertaridisz",
+        "picture": "szertaridisz-alexisz",
+        "job_hu": "string",
+        "job_en": "string",
+        "linkedin": "string"
+      },
+      {
+        "id": 2,
+        "firstName": "Ákos",
+        "lastName": "Tóth",
+        "picture": "toth-akos",
+        "job_hu": "string",
+        "job_en": "string",
+        "linkedin": "string"
+      },
+      {
+        "id": 2,
+        "firstName": "Dávid",
+        "lastName": "Gracza",
+        "picture": "gracza-david",
+        "job_hu": "string",
+        "job_en": "string",
+        "linkedin": "https://hu.linkedin.com/in/gracza"
+      }
+    ],
+    "teamType": 5
+  },
+  "mechatronics_simulation": {
+    "name_hu": "Konstrukciós tervezés & Szimuláció",
+    "name_en": "Design & Simulation",
+    "description_hu": "A Konstrukciós tervezés & Szimuláció csoport elsődleges feladata a gépészeti tervek megalkotása, illetve azok gyártás előtti szimulációval végzett validálása.",
+    "description_en": "The Design & Simultion group is responsible for the design and simulation of mechanical components. Tasks of this group, for instance, are the design of the hull and the foils. Moreover, the required validation simulations are conducted by this team as well.",
+    "id": 0,
+    "leader": {
+      "id": 0,
+      "firstName": "Ábel",
+      "lastName": "Visnyei",
+      "picture": "visnyei-abel",
+      "job_hu": "string",
+      "job_en": "string",
+      "linkedin": "https://hu.linkedin.com/in/%C3%A1bel-visnyei-b290951a4?fbclid=IwAR1DcN1YBqSiqE81JAfn4nefhsih76f2I7mccJOjsY7a1MCf2v2WnrFhqxk"
+    },
+    "members": [
+      {
+        "id": 1,
+        "firstName": "Ágoston",
+        "lastName": "Dobos",
+        "picture": "dobos-agoston",
+        "job_hu": "string",
+        "job_en": "string",
+        "linkedin": "string"
+      },
+      {
+        "id": 2,
+        "firstName": "Márk",
+        "lastName": "Bakonyi",
+        "picture": "bakonyi-mark",
+        "job_hu": "string",
+        "job_en": "string",
+        "linkedin": "string"
+      },
+      {
+        "id": 2,
+        "firstName": "Zalán",
+        "lastName": "Petőcz",
+        "picture": "petocz-zalan",
+        "job_hu": "string",
+        "job_en": "string",
+        "linkedin": "string"
+      },
+      {
+        "id": 17,
+        "firstName": "Márk",
+        "lastName": "Kecskés",
+        "picture": "kecskes-mark",
+        "job_hu": "string",
+        "job_en": "string",
+        "linkedin": "https://hu.linkedin.com/in/m%C3%A1rk-kecsk%C3%A9s-b238251b1?trk=people-guest_people_search-card&fbclid=IwAR2CuvM650hzcrkFpuG7aPP0uT6ASazw9XHMwzyL2PoobrerxktERWKwrE4"
+      }
+    ],
+    "teamType": 6
+  }
+}

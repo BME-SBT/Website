@@ -5,15 +5,15 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix = "file")
+@ConfigurationProperties(prefix = "app.file")
 public class FileStorageProperties {
-    private String uploadDir;
+    private String uploadDirectory;
 
-    public String getUploadDir() {
-        return uploadDir;
+    public String getUploadDirectory() {
+        return uploadDirectory;
     }
 
-    public void setUploadDir(String uploadDir) {
-        this.uploadDir = uploadDir;
+    public void setUploadDirectory(String uploadDirectory) {
+        this.uploadDirectory = uploadDirectory;
     }
 }

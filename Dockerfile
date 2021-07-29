@@ -4,7 +4,7 @@ RUN npm install -g @angular/cli
 COPY solarboat-app/package.json ./
 RUN npm install
 COPY solarboat-app .
-RUN ng build
+RUN ng build --prod
 
 
 FROM maven:3.6.3-jdk-8 AS backend
