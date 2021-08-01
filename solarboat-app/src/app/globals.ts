@@ -5,6 +5,9 @@ export class Globals {
         BASE_URL = 'http://localhost:8080';
        // BASE_URL = 'https://solarboatteam.hu';
 
+        IMG_ROUTE = '../../assets/';
+       // IMG_ROUTE = '/var/www/html/assets/';
+
         formatDate(date) {
                 const newDate = new Date(date);
                 const mm = newDate.getMonth() + 1; // getMonth() is zero-based

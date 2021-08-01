@@ -19,7 +19,8 @@ docker load -i solarboat_image
 
 ```sh
 docker run -d --rm --name sb_container -p 81:8080 -v sql:/var/lib/mysql solarboat  
-docker run -d --rm --name sb_container -p 81:8080 -v sql:/var/lib/mysql -v app:/var/www/html/assets solarboat 
+docker run -d --rm --name sb_container -p 81:8080 -v sql:/var/lib/mysql -v app:/var/www/html/assets solarboat
+docker run -d --rm --name sb_container -p 81:8080 -v sql:/var/lib/mysql -v /usr/src/app:/var/www/html/assets solarboat 
 ```
 > Run image
 

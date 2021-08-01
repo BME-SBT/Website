@@ -10,6 +10,7 @@ import {VideoService} from "../shared/video.service";
 import {DomSanitizer} from "@angular/platform-browser";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
+import {Globals} from "../globals";
 
 
 // import AOS from 'aos';
@@ -26,7 +27,8 @@ export class GalleryComponent implements OnInit {
         private tokenStorage: TokenStorageService,
         private videoService: VideoService,
         private toastr: ToastrService,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private globals: Globals
     ) {
     }
 
@@ -116,10 +118,10 @@ export class GalleryComponent implements OnInit {
         this.pictureService.getGallery().subscribe((res) => {
             this.gallery = res;
             this.gallery.forEach((s) => {
-                s.picture = "./assets/gallery/".concat(s.picture);
+                s.picture = this.globals.IMG_ROUTE + "gallery/"+s.picture;
             });
             this.gallery.forEach(
-                (s) => (s.smallPicture = "./assets/gallery/".concat(s.smallPicture))
+                (s) => (s.smallPicture = this.globals.IMG_ROUTE + "/gallery/"+s.smallPicture)
             );
         });
     }

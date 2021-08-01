@@ -1,9 +1,9 @@
 <div  class="d-flex flex-row members mb-3 justify-content-center flex-wrap">
     <div  class="animate-me fade-left d-flex flex-column flex-wrap col-lg-3 col-6 col-sm-4 col-md-4 ml-3 mr-3 p-md-0 ml-md-0 mr-md-0 p-lg-2 ml-lg-2 leader p-md-3 pl-lg-5 pr-lg-4 pb-3">
-        <img *ngIf="leader.linkedin === null" class="rounded-circle p-0 img-fluid flex-grow-0 flex-shrink-0 d-flex" [src]="'../../assets/members/'+leader.picture"/>
+        <img *ngIf="leader.linkedin === null" class="rounded-circle p-0 img-fluid flex-grow-0 flex-shrink-0 d-flex" [src]="this.globals.IMG_ROUTE + 'members/'+leader.picture"/>
         <a *ngIf="leader.linkedin !== null " class="img" [href]="leader.linkedin" target="blank" >
             <div class="img__overlay"><i class="fab fa-linkedin-in left"></i></div>
-            <img  [src]="'../../assets/members/'+leader.picture"/>
+            <img  [src]="this.globals.IMG_ROUTE + 'members/'+leader.picture"/>
         </a>
         <div translate class="text-center name" [translateParams]="{ leader_lastName: leader.lastName, leader_firstName: leader.firstName}">
             MEMBERS.leader_first
@@ -17,10 +17,10 @@
     </div>
 
     <div  *ngFor="let member of members; index as i" [class.break] = " members.length>4 && i>=3 " class="animate-me fade-right d-flex flex-column col-lg-2 col-sm-4 col-md-4 col-6 p-md-3 p-lg-2 pb-3 member justify-content-center">
-        <img *ngIf="member.linkedin === null " class="rounded-circle p-0 img-fluid flex-grow-0 flex-shrink-0 d-flex" [src]="'../../assets/members/'+member.picture"/>
+        <img *ngIf="member.linkedin === null " class="rounded-circle p-0 img-fluid flex-grow-0 flex-shrink-0 d-flex" [src]="this.globals.IMG_ROUTE + 'members/'+member.picture"/>
         <a *ngIf="member.linkedin !== null " class="img" [href]="member.linkedin" target="blank" >
             <div class="img__overlay"><i class="fab fa-linkedin-in left"></i></div>
-            <img  [src]="'../../assets/members/' + member.picture"/>
+            <img  [src]="this.globals.IMG_ROUTE + 'members/' + member.picture"/>
         </a>
 
         <div translate class="text-center name" [translateParams]="{ member_lastName: member.lastName, member_firstName: member.firstName}">

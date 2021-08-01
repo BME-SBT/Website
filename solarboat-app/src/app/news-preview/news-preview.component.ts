@@ -7,6 +7,7 @@ import {AngularEditorConfig} from '@kolkov/angular-editor';
 import {ToastrService} from 'ngx-toastr';
 import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {Globals} from "../globals";
 
 @Component({
     selector: 'app-news-preview',
@@ -16,7 +17,8 @@ import {MatDialog} from "@angular/material/dialog";
 export class NewsPreviewComponent implements OnInit {
     constructor(private apiService: NewsService, private toastr: ToastrService,
                 private modalService: NgbModal, pictureService: PictureService,
-                private dialog: MatDialog) {
+                private dialog: MatDialog,
+                private globals: Globals) {
         this.pictureService = pictureService;
         const currentYear = new Date().getFullYear();
         this.maxDate = new Date(currentYear + 1, 11, 31);
@@ -181,7 +183,7 @@ export class NewsPreviewComponent implements OnInit {
     private getImageUris() {
         let pictures: string[] = [];
         for (let image of this.files) {
-            pictures.push('../../assets/news/' + image.name);
+            pictures.push(this.globals.IMG_ROUTE + 'news/' + image.name);
         }
         return pictures;
     }

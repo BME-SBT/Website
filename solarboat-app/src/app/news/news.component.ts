@@ -176,7 +176,7 @@ export class NewsComponent implements OnInit {
     private getImageUris() {
         let pictures: string[] = [];
         for (let image of this.files) {
-            pictures.push('../../assets/news/' + image.name);
+            pictures.push(this.globals.IMG_ROUTE + 'news/' + image.name);
         }
         return pictures;
     }
