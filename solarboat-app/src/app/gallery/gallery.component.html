@@ -54,7 +54,7 @@
 
                             <!-- <a class="btn" (click)="uploadFileToActivity()" href="javascript:void(0)" [ngClass]="{'disabled': !isEnabled(loginForm.form.valid)}" ><span>Feltöltés</span></a> -->
                           
-                            <a class="btn" (click)="uploadGalleryPicture(galleryForm)" href="javascript:void(0)"
+                            <a class="btn" (click)="uploadGalleryPicture($event, galleryForm)" href="javascript:void(0)"
                                 [ngClass]="{ disabled: !galleryForm.form.valid }"><span>Feltöltés</span></a>
                         </form>
                     </div>

@@ -4,11 +4,11 @@ import {Sponsor} from "../model/sponsor";
 import {PictureService} from "../shared/picture.service";
 import {TokenStorageService} from "../auth/token-storage.service";
 import {AllSponsors} from "../model/all-sponsors";
-import {BreadcrumbModule} from "angular-bootstrap-md";
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {ToastrService} from "ngx-toastr";
 import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {Globals} from "../globals";
 
 // import AOS from 'aos';
 @Component({
@@ -22,7 +22,8 @@ export class SponsorsComponent implements OnInit {
         private pictureService: PictureService,
         private tokenStorage: TokenStorageService,
         private toastr: ToastrService,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private globals: Globals
     ) {
     }
 
@@ -54,21 +55,21 @@ export class SponsorsComponent implements OnInit {
             (res) => {
                 this.allSponsors = res;
                 this.allSponsors.main.forEach(
-                    (s) => (s.picture = "../../assets/sponsors/".concat(s.picture))
+                    (s) => (s.picture = this.globals.IMG_ROUTE + "sponsors/" + s.picture)
                 );
                 this.allSponsors.top.forEach(
-                    (s) => (s.picture = "../../assets/sponsors/".concat(s.picture))
+                    (s) => (s.picture = this.globals.IMG_ROUTE + "sponsors/" +s.picture)
                 );
                 this.allSponsors.uni.forEach(
-                    (s) => {(s.picture = "../../assets/sponsors/".concat(s.picture));
+                    (s) => {(s.picture = this.globals.IMG_ROUTE + "sponsors/"+s.picture);
                     console.log(this.allSponsors.uni);
                 }
                 );
                 this.allSponsors.other.forEach(
-                    (s) => (s.picture = "../../assets/sponsors/".concat(s.picture))
+                    (s) => (s.picture = this.globals.IMG_ROUTE + "sponsors/"+s.picture)
                 );
                 this.allSponsors.partner.forEach(
-                    (s) => (s.picture = "../../assets/sponsors/".concat(s.picture))
+                    (s) => (s.picture = this.globals.IMG_ROUTE + "sponsors/"+ s.picture)
                 );
                 this.splitSponsors();
             },

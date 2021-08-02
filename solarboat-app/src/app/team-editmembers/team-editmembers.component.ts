@@ -7,6 +7,7 @@ import {NgForm} from '@angular/forms';
 import {ToastrService} from "ngx-toastr";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
+import {Globals} from "../globals";
 
 @Component({
     selector: 'app-team-editmembers',
@@ -18,17 +19,21 @@ export class TeamEditmembersComponent implements OnInit {
 
 
     form: any = {};
-    failed = false;
-    errorMessage = '';
     files: File[] = [];
     picturesSelected = false;
+    imgRoute = '';
 
-    constructor(private toastr: ToastrService, private apiService: TeamService, private modalService: NgbModal,
-                private pictureService: PictureService, private dialog: MatDialog) {
+    constructor(private toastr: ToastrService,
+                private apiService: TeamService,
+                private modalService: NgbModal,
+                private pictureService: PictureService,
+                private dialog: MatDialog,
+                private globals: Globals) {
     }
 
     ngOnInit(): void {
         this.getMembers();
+        this.imgRoute = this.globals.IMG_ROUTE;
     }
 
     getMembers() {
@@ -61,7 +66,7 @@ export class TeamEditmembersComponent implements OnInit {
         if (this.picturesSelected) {
             this.pictureService.postFile(this.form.picture, 'members').subscribe(
                 (data) => {
-                    this.form.picture = '../../assets/members/' + this.form.picture.name;
+                    this.form.picture = this.globals.IMG_ROUTE + 'members/' + this.form.picture.name;
                     this.updateMember();
                 },
                 (error) => {
@@ -89,7 +94,7 @@ export class TeamEditmembersComponent implements OnInit {
     onSubmitAddForm(AddForm: any) {
         this.pictureService.postFile(this.form.picture, 'members').subscribe(
             (data) => {
-                this.form.picture = '../../assets/members/' + this.form.picture.name;
+                this.form.picture = this.globals.IMG_ROUTE + 'members/' + this.form.picture.name;
                 this.addMember();
             },
             (error) => {

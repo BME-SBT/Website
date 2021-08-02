@@ -94,7 +94,7 @@ export class AchievementComponent implements OnInit {
             place_hu: this.form.place_hu,
             place_en: this.form.place_en,
             isLast: false,
-            picture: this.files.length > 0 ? '../../assets/achievement/' + this.files[0].name : this.achievement.picture
+            picture: this.files.length > 0 ? this.globals.IMG_ROUTE + 'achievement/' + this.files[0].name : this.achievement.picture
         };
         if (this.files.length > 0) {
             this.pictureService.postFile(this.form.picture, 'achievement').subscribe(
