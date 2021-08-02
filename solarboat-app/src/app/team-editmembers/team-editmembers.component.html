@@ -5,10 +5,10 @@
     <div *ngFor="let member of members; index as i"
          class="d-flex flex-column col-lg-2 col-sm-4 col-md-4 col-6 pl-3 pr-3 pt-3 mb-3">
         <img *ngIf="member.linkedin === null " class="rounded-circle p-0 img-fluid flex-grow-0 flex-shrink-0 d-flex"
-             [src]="globals.IMG_ROUTE + 'members/'+member.picture"/>
+             [src]="imgRoute + 'members/'+member.picture"/>
         <a *ngIf="member.linkedin !== null " class="img" [href]="member.linkedin" target="blank">
             <div class="img__overlay"><i class="fab fa-linkedin-in left"></i></div>
-            <img [src]="globals.IMG_ROUTE + 'members/' + member.picture"/>
+            <img [src]="imgRoute + 'members/' + member.picture"/>
         </a>
 
         <div translate class="text-center name" (click)="openEditMemberForm(EditMember, member)"

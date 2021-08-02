@@ -21,17 +21,19 @@ export class TeamEditmembersComponent implements OnInit {
     form: any = {};
     files: File[] = [];
     picturesSelected = false;
+    imgRoute = '';
 
     constructor(private toastr: ToastrService,
                 private apiService: TeamService,
                 private modalService: NgbModal,
                 private pictureService: PictureService,
                 private dialog: MatDialog,
-                private globals: Globals){
+                private globals: Globals) {
     }
 
     ngOnInit(): void {
         this.getMembers();
+        this.imgRoute = this.globals.IMG_ROUTE;
     }
 
     getMembers() {

@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Member} from '../model/member';
+import {Globals} from "../globals";
 
 @Component({
   selector: 'app-team-members',
@@ -10,9 +11,11 @@ export class TeamMembersComponent implements OnInit {
   @Input() members: Member[];
   @Input() leader: Member;
   @Input() isLeader: boolean;
-  constructor() { }
+  imgRoute = '';
+  constructor(private globals: Globals) {}
 
   ngOnInit(): void {
+    this.imgRoute = this.globals.IMG_ROUTE;
     const elements = document.querySelectorAll('.animate-me');
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
