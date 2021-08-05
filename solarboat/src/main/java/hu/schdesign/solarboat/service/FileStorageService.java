@@ -96,7 +96,8 @@ public class FileStorageService {
             concatFilename = concatFilename + "_" + name;
         }
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        concatFilename = concatFilename + "_" + timestamp.getTime() + "." + extension;
+        concatFilename = concatFilename + "." + extension;
+//        concatFilename = concatFilename + "_" + timestamp.getTime() + "." + extension;
         System.out.println(concatFilename);
         String fileName = StringUtils.cleanPath(concatFilename);
 

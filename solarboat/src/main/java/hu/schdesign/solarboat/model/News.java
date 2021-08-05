@@ -15,6 +15,7 @@ public class News {
     private Long id;
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate date;
+    @Transient
     private ArrayList<String> pictures;
     @NotNull
     @Size(min=2, max=50)
