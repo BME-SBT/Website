@@ -28,6 +28,7 @@ public class NewsService {
 //    }
 
     public News addNews(News news) {
+
         return newsRepository.save(news);
     }
 

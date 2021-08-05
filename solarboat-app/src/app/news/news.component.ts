@@ -128,7 +128,7 @@ export class NewsComponent implements OnInit {
             (res) => {
                 // tslint:disable-next-line:prefer-const
                 let data: any = res;
-                // console.log(data);
+                 console.log(data);
                 <News[]>data.content.forEach((element) => {
                     this.allnews.push(element);
                 });

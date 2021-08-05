@@ -6,6 +6,7 @@ RUN npm install
 COPY solarboat-app .
 RUN ng build --prod
 
+
 FROM maven:3.6.3-jdk-8 AS backend
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update && apt install -y mariadb-server
@@ -18,12 +19,13 @@ COPY solarboat/init.sql .
 RUN /etc/init.d/mysql start && mysql < init.sql 
 
 COPY solarboat/src src
-COPY --from=frontend-build /usr/src/app/dist /var/www/html
+COPY --from=frontend-build /usr/src/app/dist src/main/resources/public/
 RUN /etc/init.d/mysql start && mvn -f pom.xml package
 
 VOLUME /var/www/html/assets
 VOLUME solarboat-app/src/assets
 VOLUME solarboat/src/main/resources/public/assets
+
 
 EXPOSE 8080
 

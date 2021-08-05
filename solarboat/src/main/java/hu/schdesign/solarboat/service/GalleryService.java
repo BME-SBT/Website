@@ -15,7 +15,7 @@ public class GalleryService {
     private final GalleryRepository galleryRepository;
     private final FileStorageService fileStorageService;
     private final String PATH = "gallery";
-    private final int PICTURE_WIDTH = 1200;
+    private final int PICTURE_WIDTH = 1920;
     private final int SMALL_PICTURE_WIDTH = 400;
 
     @Autowired
