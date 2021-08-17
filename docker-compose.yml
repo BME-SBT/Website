@@ -1,0 +1,14 @@
+version: "3"
+
+services: 
+  gateway:
+    image: nginx:latest
+
+    volumes: 
+      - nginx_conf:/etc/nginx/:ro
+      - frontend:/usr/share/nginx/html:ro
+
+  backend:
+    
+    
+
