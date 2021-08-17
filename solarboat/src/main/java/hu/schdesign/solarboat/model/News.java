@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -15,8 +16,8 @@ public class News {
     private Long id;
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate date;
-    @Transient
-    private ArrayList<String> pictures;
+    @ElementCollection
+    private List<String> pictures;
     @NotNull
     @Size(min=2, max=50)
     private String title_hu;
@@ -78,7 +79,7 @@ public class News {
         return String.valueOf(date);
     }
 
-    public ArrayList<String> getPictures() {
+    public List<String> getPictures() {
         return pictures;
     }
 

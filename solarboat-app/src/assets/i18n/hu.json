@@ -2,7 +2,8 @@
   "BUTTON": {
     "readAllNews": "TELJES HÍR OLVASÁSA",
     "more": "korábbiak betöltése",
-    "description": "leírás"
+    "description": "leírás",
+    "open":"megnyitás"
   },
   "NAV": {
   "aboutUs": "rólunk",
@@ -10,7 +11,8 @@
   "news": "hírek",
   "achievements": "eredmények",
   "sponsors": "szponzorok",
-  "gallery": "galéria"
+  "gallery": "galéria",
+  "press": "sajtó"
 },
   "COVER": {
     "solarPower": "Jelenlegi napsütésben {{ watts }} Wattot termel a hajó",
@@ -121,5 +123,12 @@
     "stateOfCharge":"Töltésállapot",
     "temperature":"Hőmérséklet"
 
+  },
+  "ARTICLE":{
+    "press": "sajtó",
+    "all_articles": "összes cikk",
+    "title": "{{title_hu}}",
+    "link": "{{link}}",
+    "content": "{{content_hu}}"
   }
 }

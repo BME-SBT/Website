@@ -2,7 +2,8 @@
   "BUTTON": {
     "readAllNews": "READ THE NEWS",
     "more": "load more",
-    "description": "description"
+    "description": "description",
+    "open":"open"
   },
   "NAV": {
     "aboutUs": "about us",
@@ -10,7 +11,8 @@
     "news": "news",
     "achievements": "achievements",
     "sponsors": "sponsors",
-    "gallery": "gallery"
+    "gallery": "gallery",
+    "press":"press"
   },
   "COVER": {
     "solarPower": "Our boat currently produces {{ watts }} watts",
@@ -116,5 +118,12 @@
     "date":"Date",
     "stateOfCharge":"State of charge",
     "temperature":"Temperature"
+  },
+  "ARTICLE":{
+    "press": "press",
+    "all_articles": "all articles",
+    "title": "{{title_en}}",
+    "link": "{{link}}",
+    "content": "{{content_en}}"
   }
 }
