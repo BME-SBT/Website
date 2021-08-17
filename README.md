@@ -1,7 +1,7 @@
 # solarboat2.0
 Website of the Solar Boat Team
 
-##Run in docker container
+## Run in docker container
 
 ```sh
 docker build -t solarboat .
