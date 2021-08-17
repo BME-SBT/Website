@@ -27,3 +27,16 @@ docker run -d --rm --name sb_container -p 81:8080 -v sql:/var/lib/mysql -v /usr/
 
 
 docker image/container prune
+
+
+
+1. Docker buildes parancs
+2. docker save images parqncs.
+-> megjelenik a mappaban az image
+3.atkopizod az imaget a serverre a winscpvel. A root mappaba kell tenni, ha latsz sok masik imaget akkor vagy jo helyen😃
+4. Puttyban: docker load images parancs
+5. Leallitod a most futó containert: "docker stop container"
+6. Elinditasz egy kontenert a mostani imaggel: puttyban docker run valami nagyon hosszu parancs es a legvegere beleirod a betoltott image nevet
+
+docker image ls
+docker rmi *imageneve*

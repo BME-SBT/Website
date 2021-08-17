@@ -68,6 +68,8 @@ import {MatCardModule} from "@angular/material/card";
 import {SafePipe} from "./pipes/safe.pipe";
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { MatButtonModule } from '@angular/material/button';
+import { PressPreviewComponent } from './press-preview/press-preview.component';
+import { PressComponent } from './press/press.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -109,7 +111,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         TeamEditgroupsComponent,
         TeamEditgroupPanelComponent,
         SafePipe,
-        ConfirmDialogComponent
+        ConfirmDialogComponent,
+        PressPreviewComponent,
+        PressComponent
     ],
     // tslint:disable-next-line:max-line-length
     imports: [

@@ -1,0 +1,40 @@
+div.press {
+    background-color: #f3f4f4;
+  }
+  .jumbotron {
+    background: none;
+    margin-bottom: 0;
+  }
+  #article-form{
+    background: white;
+    background-color: white;
+    padding: 3%;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(31, 45, 65, 0.15);
+  }
+  textarea{
+    height: 100%;
+  }
+  @media only screen and (max-width: 768px) {
+ 
+    div.container{
+      padding-left: 0px !important;
+      padding-right: 0px !important;
+      margin-top: 1rem;
+    }
+  }
+  .nav-link {
+    color: grey;
+  }
+  .localization-tab-content{
+    padding: 1rem 1rem 0 1rem;
+    border: solid 1px lightgrey;
+    border-style: none solid solid solid;
+  }
+  .nav-tabs{
+    padding: 1rem 1rem 0 1rem
+  }
+  .localization-tabs{
+    margin-bottom: 1rem;
+  }
+  
+  

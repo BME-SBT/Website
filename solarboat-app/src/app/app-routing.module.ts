@@ -12,6 +12,7 @@ import {UsersComponent} from "./admin/users/users.component";
 import {DataVisualizationComponent} from "./data-visualization/data-visualization.component";
 import {AuthGuardService} from "./shared/auth-guard.service";
 import {RoleType} from "./model/role-type.enum";
+import { PressComponent } from "./press/press.component";
 
 const routes: Routes = [
     {path: "gallery", component: GalleryComponent},
@@ -22,6 +23,7 @@ const routes: Routes = [
     {path: "news", component: NewsComponent},
     {path: "achievements", component: AchievementsComponent},
     {path: "sponsors", component: SponsorsComponent},
+    {path: "press", component: PressComponent},
     {path: "boatdata", component: DataVisualizationComponent, canActivate: [AuthGuardService]},
     {path: "admin", redirectTo: "/auth/login"},
     {path: "users", component: UsersComponent, canActivate: [AuthGuardService], data: {roles: [RoleType.Admin]}},

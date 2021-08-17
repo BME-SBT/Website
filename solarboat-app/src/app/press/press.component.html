@@ -1,0 +1,117 @@
+<app-nav-bar></app-nav-bar>
+<div class="press">
+    <div class="container col-12  col-lg-10 col-md-11 align-items-center">
+        <div class="jumbotron col-12">
+            <h1 translate class="title pb-4">ARTICLE.press</h1>
+            <div class="container col-lg-10 col-12 mt-5 ">
+                <div *ngIf="authority == 'admin'" class="card mb-5 mr-md-3 mr-lg-3 ml-md-3 ml-lg-3 " id="article-form">
+                    <h2 class="title pb-3" id="form-title">Új cikk hozzáadása</h2>
+                    <div>
+                        <form #AddForm="ngForm">
+                            <mat-tab-group mat-align-tabs="start">
+                                <mat-tab label="MAGYAR" class="pt-3">
+                                    <div class="container p-3 ">
+                                        <div class="row">
+                                            <div class="col-md-6 col-lg-6 col-12">
+                                                <div class="form-group"> <mat-form-field [style.width.px]=400>
+                                                        <input matInput maxlength="50" minlength="2" name="title"
+                                                               type="text" id="title"
+                                                               [(ngModel)]="form.title" required placeholder="Cím">
+                                                        <mat-error>Kötelező mező</mat-error>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-12">
+                                                <div class="form-group">
+                                                    <mat-form-field [style.width.px]=400>
+                                                        <textarea matInput maxlength="50" minlength="2" name="content"
+                                                               type="text" id="content"
+                                                               [(ngModel)]="form.content" required placeholder="Leírás"></textarea>
+                                                        <mat-error>Kötelező mező</mat-error>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-tab>
+
+                                <mat-tab label="ANGOL" class="pt-3">
+                                    <div class="container p-3 ">
+                                        <div class="row">
+                                            <div class="col-md-6 col-lg-6 col-12">
+                                                <div class="form-group">
+                                                    <mat-form-field [style.width.px]=400>
+                                                        <input matInput maxlength="50" minlength="2" name="title_en"
+                                                               type="text" id="title_en"
+                                                               [(ngModel)]="form.title_en" required placeholder="Cím">
+                                                        <mat-error>Kötelező mező</mat-error>
+                                                    </mat-form-field>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-12">
+                                                <div class="form-group">
+                                                    <mat-form-field [style.width.px]=400>
+                                                        <textarea matInput maxlength="50" minlength="2" name="content"
+                                                               type="text" id="content_en"
+                                                               [(ngModel)]="form.content_en" required placeholder="Leírás"></textarea>
+                                                        <mat-error>Kötelező mező</mat-error>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-tab>
+                            </mat-tab-group>
+
+                            <div class="col-md-6 col-lg-6 col-12 pb-2">
+                                <div class="form-group">
+                                    <mat-form-field [style.width.px]=400>
+                                        <mat-label>Link</mat-label>
+                                        <input matInput  name="link"
+                                                required
+                                               [(ngModel)]="form.link" id="link">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                           
+                            <div class="col-md-6 col-lg-6 col-12 pb-2">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>Dátum</mat-label>
+                                        <input matInput [max]="maxDate" name="date" [matDatepicker]="date"
+                                               [(ngModel)]="form.date" id="date">
+                                        <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+                                        <mat-datepicker #date></mat-datepicker>
+                                        <mat-hint>Üresen hagyva a mai dátummal lesz elmentve</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            
+                            <div class="row justify-content-end">
+                                <a class="btn mr-4" id="submit-btn" (click)="onSubmit(AddForm, $event)"
+                                   href="javascript:void(0)"
+                                   [ngClass]="{'disabled': !AddForm.form.valid }"><span>Feltöltés</span></a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row justify-content-between">
+                    <app-press-preview
+                            *ngFor="let article of allArticles"
+                            [article]="article" [authority]="authority"
+                            (onRemove)="onDeleteArticle($event)"
+                            class="col-lg-6 col-md-6 col-12 col-sm-12"
+                    ></app-press-preview>
+                </div>
+            </div>
+            <div class="row align-items-center justify-content-center">
+                <div class="col- load-more pt-5">
+                    <a class="btn" *ngIf="!isLastPage" (click)="getArticles()" href="javascript:void(0)"><span translate>BUTTON.more</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>
