@@ -4,4 +4,9 @@ volumes:
   nginx_conf:
     
   frontend:
-    
+
+  mysql: 
+    driver_opts:
+      type: none
+      device: ${PWD}/data/volume_mysql
+      o: bind
