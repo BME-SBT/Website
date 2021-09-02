@@ -1,25 +1,22 @@
 version: "3"
 
 services: 
-  #gateway:
-  #  image: nginx:latest
-#
-  #  volumes: 
-  #    - nginx_conf:/etc/nginx/:ro
-  #    - frontend:/usr/share/nginx/html:ro
-
   backend:
-    build: ./backend
+    image: sbt_backend:local
 
     ports:
-      - 80:8080
+      - 8080:8080
     
     depends_on: 
       - mysql
 
+    restart: unless-stopped
 
   mysql:
-    image: mysql:8
+    image: mariadb:10.5.12
+
+    ports:
+      - 3306:3306
 
     environment: 
       - MYSQL_ROOT_USER=root
@@ -28,4 +25,12 @@ services:
     volumes: 
       - ./data/volume_mysql:/var/lib/mysql
     
+  frontend:
+    image: sbt_frontend:local
+
+    ports: 
+      - 80:80
+
+    depends_on: 
+      - backend
 
