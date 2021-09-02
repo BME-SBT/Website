@@ -2,7 +2,7 @@ name: build-and-publish
 
 on:
   push:
-    branches: ['ci','brw-toolchain']
+    branches: ['ci-build','brw-toolchain']
 
 env:
   REGISTRY: ghcr.io
@@ -45,3 +45,11 @@ jobs:
           push: true
           tags: ${{ steps.meta_backend.outputs.tags }}
           labels: ${{ steps.meta_backend.outputs.labels }}
+
+      - name: Build and push frontend image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: frontend
+          push: true
+          tags: ${{ steps.meta_frontend.outputs.tags }}
+          labels: ${{ steps.meta_frontend.outputs.labels }}
