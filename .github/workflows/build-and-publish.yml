@@ -27,13 +27,13 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
         
       - name: Extract metadata (tags, labels) for backend
-        id: meta
+        id: meta_backend
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
           images: ${{ env.REGISTRY }}/sbt_backend
       
-      - name: Extract metadata (tags, labels) for backend
-        id: meta
+      - name: Extract metadata (tags, labels) for frontend
+        id: meta_frontend
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
           images: ${{ env.REGISTRY }}/sbt_frontend
@@ -43,5 +43,5 @@ jobs:
         with:
           context: backend
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta_backend.outputs.tags }}
+          labels: ${{ steps.meta_backend.outputs.labels }}
