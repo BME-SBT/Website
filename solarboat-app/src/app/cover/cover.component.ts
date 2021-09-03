@@ -65,6 +65,29 @@ export class CoverComponent implements OnInit {
           .subscribe((data) => {
             this.watts = this.getWattsFromJsonByDate(data, this.getCurrentDateAndHour());
             this.sessionStorage.setItem('solarpower', data);
+          }, (err) => {
+            //TODO félmegoldás: ideiglenes fake adatok ha a szerver nemműködne
+            function isDayTime() {
+              const startTime = '06:00:00';
+              const endTime = '19:00:00';
+
+              const currentDate = new Date();
+
+              let startDate = new Date(currentDate.getTime());
+              startDate.setHours(Number(startTime.split(":")[0]));
+              startDate.setMinutes(Number(startTime.split(":")[1]));
+              startDate.setSeconds(Number(startTime.split(":")[2]));
+
+              let endDate = new Date(currentDate.getTime());
+              endDate.setHours(Number(endTime.split(":")[0]));
+              endDate.setMinutes(Number(endTime.split(":")[1]));
+              endDate.setSeconds(Number(endTime.split(":")[2]));
+
+
+              return startDate < currentDate && endDate > currentDate;
+            }
+
+            this.watts = isDayTime() ? 971 : 0;
           });
     }
   }
