@@ -1,3 +1,0 @@
-groupid;date;dataid;datadate;tilt_x;tilt_y;tilt_z;acceleration_x;acceleration_y;acceleration_z;compass_x;compass_y;compass_z;motor_RpM;motor_temp;battery_in;battery_out;battery_SoC;battery_temp;error_source;error_message;ExtraTemps
-22;2020.12.06 23:27:16;40;2020-12-06 23:27:16.515;44.0;33.0;22.0;20.0;30.0;40.0;1.0;1.0;2.0;22.0;33.0;10.0;20.0;30.0;40.0;source;error message;
-22;2020.12.06 23:27:16;41;2020-12-06 23:27:16.558;44.0;33.0;22.0;20.0;30.0;40.0;1.0;1.0;2.0;22.0;33.0;10.0;20.0;30.0;40.0;source;error message;

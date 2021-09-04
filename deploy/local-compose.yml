@@ -10,6 +10,9 @@ services:
     depends_on: 
       - mysql
 
+    volumes: 
+      - ./data/volume_assets:/var/www/html
+      
     restart: unless-stopped
 
   mysql:
@@ -27,9 +30,14 @@ services:
     
   frontend:
     image: sbt_frontend:local
+    
+    volumes: 
+      - ./data/volume_assets:/var/www/html
+      - ./cert:/etc/letsencrypt/live/solarboatteam.hu:ro
 
     ports: 
       - 80:80
+      - 443:443
 
     depends_on: 
       - backend

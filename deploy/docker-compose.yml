@@ -9,6 +9,9 @@ services:
     
     depends_on: 
       - mysql
+    
+     volumes: 
+      - volume_assets:/var/www/html
 
     restart: unless-stopped
 
@@ -23,13 +26,18 @@ services:
       - MYSQL_ROOT_PASSWORD=rootpass
 
     volumes: 
-      - ./data/volume_mysql:/var/lib/mysql
+      - volume_mysql:/var/lib/mysql
     
   frontend:
     image: ghcr.io/bme-sbt/sbt_frontend:brw-toolchain
 
+    volumes: 
+      - volume_assets:/var/www/html
+      - ./cert:/etc/letsencrypt/live/solarboatteam.hu:ro
+
     ports: 
       - 80:80
+      - 443:443
 
     depends_on: 
       - backend
