@@ -36,6 +36,7 @@ export class PressPreviewComponent implements OnInit {
         this.form.content_en = this.article.content_en;
         this.form.date = this.article.date;
         this.form.link = this.article.link;
+        this.form.website_name = this.article.website_name;
     }
 
     openLink(link){
@@ -72,13 +73,14 @@ export class PressPreviewComponent implements OnInit {
         this.article.content_hu = this.form.content;
         this.article.title_en = this.form.title_en;
         this.article.content_en = this.form.content_en;
+        this.article.website_name = this.form.website_name;
         this.article.date = this.form.date ? this.formatDate(this.form.date) : this.formatDate(this.article.date);
         this.updateArticle(empForm, this.article);
     }
     private updateArticle(empForm: any, article: Article) {
         this.articleService.putArticle(article).subscribe(
             (res) => {
-                this.showSuccess('Hír módosítva');
+                this.showSuccess('Cikk módosítva');
                 this.modalService.dismissAll('put');
                 this.form = empForm;
                 // this.ngOnInit();

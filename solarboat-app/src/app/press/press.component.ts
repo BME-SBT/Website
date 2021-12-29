@@ -45,6 +45,7 @@ export class PressComponent implements OnInit {
       title_en: this.form.title_en,
       content_en: this.form.content_en,
       link: this.form.link,
+      website_name: this.form.website_name,
       date: this.form.date ? this.globals.formatDate(this.form.date) : null,
     };
     this.saveArticle(empForm, article);
@@ -97,7 +98,7 @@ export class PressComponent implements OnInit {
       },
       (err) => {
         console.log(err);
-        this.showError(err.error.message, "Hírek sikertelen lekérése");
+        this.showError(err.error.message, "Cikkek sikertelen lekérése");
       }
     );
   }
@@ -111,7 +112,8 @@ export class PressComponent implements OnInit {
       title_en: article.title_en,
       content_en: article.content_en,
       date: article.date,
-      link: article.link
+      link: article.link,
+      website_name: article.website_name
     };
     this.allArticles.unshift(n);
   }

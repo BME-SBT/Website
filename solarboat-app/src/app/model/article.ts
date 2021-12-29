@@ -6,4 +6,5 @@ export class Article {
     link: string;
     id: number;
     date: string;
+    website_name: string;
 }
