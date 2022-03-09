@@ -52,7 +52,7 @@ public class ArticleController {
     @GetMapping
     public List<Article> getAllNews() {
 
-        Iterable<Article> it = articleService.getAllNews();
+        Iterable<Article> it = articleService.getAllArticles();
         List<Article> list = new ArrayList<>();
         for (Article s : it) {
             list.add(s);

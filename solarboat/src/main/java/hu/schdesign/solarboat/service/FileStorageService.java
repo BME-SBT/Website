@@ -1,7 +1,6 @@
 package hu.schdesign.solarboat.service;
 
 
-
 import hu.schdesign.solarboat.Exceptions.FileStorageException;
 import hu.schdesign.solarboat.Exceptions.MyFileNotFoundException;
 import hu.schdesign.solarboat.FileStorageProperties;
@@ -61,7 +60,7 @@ public class FileStorageService {
         BufferedImage originalImage = new BufferedImage(tempImage.getWidth(null), tempImage.getHeight(null), BufferedImage.TYPE_INT_RGB);
         InputStream is = file.getInputStream();
         Image image = ImageIO.read(is);
-        originalImage.getGraphics().drawImage(image, 0, 0 , null);
+        originalImage.getGraphics().drawImage(image, 0, 0, null);
         originalImage.getGraphics().dispose();
         if (originalImage.getWidth() > width) {
 
@@ -89,7 +88,7 @@ public class FileStorageService {
         // Normalize file name
         String concatFilename = FilenameUtils.removeExtension(file.getOriginalFilename());
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
-        if(concatFilename.isEmpty()){
+        if (concatFilename.isEmpty()) {
             concatFilename = "";
         }
         if (!name.isEmpty()) {
@@ -117,7 +116,7 @@ public class FileStorageService {
         }
     }
 
-    public String storeFile(MultipartFile file, String path) {
+    public String storeImage(MultipartFile file, String path) {
         if (!file.getContentType().contains("image")) {
             return null;
         }
@@ -135,6 +134,48 @@ public class FileStorageService {
         }
         //concatFilename += LocalDateTime.now().toString();
         String fileName = StringUtils.cleanPath(concatFilename);
+
+        try {
+            // Check if the file's name contains invalid characters
+            if (fileName.contains("..")) {
+                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+            }
+
+            // Copy file to the target location (Replacing existing file with the same name)
+            Path targetLocation = this.fileStorageLocation.resolve(fileName);
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+
+            return fileName;
+        } catch (IOException ex) {
+            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+        }
+    }
+
+    public String storeFile(MultipartFile file) {
+
+        this.fileStorageLocation = Paths.get(this.path + "/files")
+                .toAbsolutePath().normalize();
+        try {
+            Files.createDirectories(this.fileStorageLocation);
+        } catch (Exception ex) {
+            throw new FileStorageException("Could not create the directory where the uploaded files will be stored.", ex);
+        }
+        // Normalize file name
+        String fileName = file.getOriginalFilename();
+        if (fileName.isEmpty()) {
+            fileName = "";
+        }
+        fileName = fileName.replace(' ', '_');
+        fileName = fileName.replace('á', 'a');
+        fileName = fileName.replace('é', 'e');
+        fileName = fileName.replace('ó', 'o');
+        fileName = fileName.replace('ő', 'o');
+        fileName = fileName.replace('ö', 'o');
+        fileName = fileName.replace('ü', 'u');
+        fileName = fileName.replace('ű', 'u');
+        fileName = fileName.replace('ú', 'u');
+        fileName = fileName.replace('í', 'i');
+        fileName = StringUtils.cleanPath(fileName);
 
         try {
             // Check if the file's name contains invalid characters

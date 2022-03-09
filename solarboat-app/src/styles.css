@@ -33,6 +33,11 @@ h2.title{
     margin: 0;
     text-transform: uppercase;
 }
+h3.title{
+    font-family: 'KelsonSans-Normal';
+    font-size: 0.8rem;
+    margin: 0;
+}
 p{
     font-family: 'Helvetica';
     font-size: 1rem;

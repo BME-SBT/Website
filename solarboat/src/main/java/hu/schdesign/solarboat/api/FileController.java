@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*")
-@RequestMapping("api/file")
 @RestController
 public class FileController {
 
@@ -38,45 +37,7 @@ public class FileController {
         this.fileStorageService = fileStorageService;
     }
 
-    @Secured("ROLE_USER")
-    @PostMapping("/uploadFile")
-    public ResponseEntity<UploadFileResponse> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("path") String path) throws URISyntaxException {
-        String fileName = fileStorageService.storeFile(file, path);
-
-        if (fileName == null) {
-            HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.setLocation(new URI("/uploadFile"));
-            responseHeaders.set("Error", "The file is not an image");
-            return new ResponseEntity<UploadFileResponse>(null, responseHeaders, HttpStatus.BAD_REQUEST);
-        }
-
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/downloadFile/")
-                .path(fileName)
-                .toUriString();
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setLocation(new URI("uploadFile"));
-
-        return new ResponseEntity<UploadFileResponse>(new UploadFileResponse(fileName, fileDownloadUri,
-                file.getContentType(), file.getSize()), responseHeaders, HttpStatus.CREATED);
-    }
-
-    @PostMapping("/uploadMultipleFiles")
-    public List<ResponseEntity<UploadFileResponse>> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files, @RequestParam("path") String path ) {
-        return Arrays.asList(files)
-                .stream()
-                .map(file -> {
-                    try {
-                        return uploadFile(file, path);
-                    } catch (URISyntaxException e) {
-                        throw new CustomMessageApiException("Nem megengedett fájlformátum");
-                    }
-                })
-                .collect(Collectors.toList());
-    }
-
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    @GetMapping("/downloadFile/{fileName:.+}")
+    @GetMapping("files/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
         // Load file as Resource
         Resource resource = fileStorageService.loadFileAsResource(fileName);
@@ -100,8 +61,76 @@ public class FileController {
                 .body(resource);
     }
 
+
     @Secured("ROLE_USER")
-    @DeleteMapping(path = "/deleteFile")
+    @PostMapping("/api/file/uploadFile")
+    public ResponseEntity<UploadFileResponse> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("path") String path) throws URISyntaxException {
+        String fileName;
+        if (path.equals("file")) {
+            fileName = fileStorageService.storeFile(file);
+        } else {
+            fileName = fileStorageService.storeImage(file, path);
+        }
+
+        if (fileName == null) {
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.setLocation(new URI("/uploadFile"));
+            responseHeaders.set("Error", "Error");
+            return new ResponseEntity<UploadFileResponse>(null, responseHeaders, HttpStatus.BAD_REQUEST);
+        }
+
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/files/")
+                .path(fileName)
+                .toUriString();
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setLocation(new URI("uploadFile"));
+
+        return new ResponseEntity<UploadFileResponse>(new UploadFileResponse(fileName, fileDownloadUri,
+                file.getContentType(), file.getSize()), responseHeaders, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/api/file/uploadMultipleFiles")
+    public List<ResponseEntity<UploadFileResponse>> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files, @RequestParam("path") String path) {
+        return Arrays.asList(files)
+                .stream()
+                .map(file -> {
+                    try {
+                        return uploadFile(file, path);
+                    } catch (URISyntaxException e) {
+                        throw new CustomMessageApiException("Nem megengedett fájlformátum");
+                    }
+                })
+                .collect(Collectors.toList());
+    }
+
+//    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+//    @GetMapping("/downloadFile/{fileName:.+}")
+//    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
+//        // Load file as Resource
+//        Resource resource = fileStorageService.loadFileAsResource(fileName);
+//
+//        // Try to determine file's content type
+//        String contentType = null;
+//        try {
+//            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+//        } catch (IOException ex) {
+//            logger.info("Could not determine file type.");
+//        }
+//
+//        // Fallback to the default content type if type could not be determined
+//        if (contentType == null) {
+//            contentType = "application/octet-stream";
+//        }
+//
+//        return ResponseEntity.ok()
+//                .contentType(MediaType.parseMediaType(contentType))
+//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+//                .body(resource);
+//    }
+
+    @Secured("ROLE_USER")
+    @DeleteMapping(path = "/api/file/deleteFile")
     public void deleteFile(@RequestBody String fileName) {
         // this.fileStorageService.deleteFile(fileName);
     }

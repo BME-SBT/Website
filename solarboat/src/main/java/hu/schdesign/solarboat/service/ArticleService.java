@@ -21,7 +21,7 @@ public class ArticleService {
         return articleRepository.save(article);
     }
 
-    public Iterable<Article> getAllNews() {
+    public Iterable<Article> getAllArticles() {
         return articleRepository.findAll(Sort.by("date").descending());
     }
 

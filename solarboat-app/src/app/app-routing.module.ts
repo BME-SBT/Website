@@ -13,6 +13,7 @@ import {DataVisualizationComponent} from "./data-visualization/data-visualizatio
 import {AuthGuardService} from "./shared/auth-guard.service";
 import {RoleType} from "./model/role-type.enum";
 import { PressComponent } from "./press/press.component";
+import { FileStorageComponent } from "./file-storage/file-storage.component";
 
 const routes: Routes = [
     {path: "gallery", component: GalleryComponent},
@@ -27,6 +28,7 @@ const routes: Routes = [
     {path: "boatdata", component: DataVisualizationComponent, canActivate: [AuthGuardService]},
     {path: "admin", redirectTo: "/auth/login"},
     {path: "users", component: UsersComponent, canActivate: [AuthGuardService], data: {roles: [RoleType.Admin]}},
+    {path: "fileStorage", component: FileStorageComponent},
     {path: "", redirectTo: "/mainpage", pathMatch: "full"},
     {path: "**", redirectTo: "/mainpage", pathMatch: "full"},
 ];

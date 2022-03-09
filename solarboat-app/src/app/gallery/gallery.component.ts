@@ -199,7 +199,6 @@ export class GalleryComponent implements OnInit {
     loadVideos() {
         this.videoService.getAllLinks().subscribe((res) => {
             this.videos = res;
-            console.log(this.videos);
         });
     }
 

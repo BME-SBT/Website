@@ -18,27 +18,31 @@ public class Article {
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate date;
     @NotNull
-    @Size(min=2, max=50)
+    @Size(min=5)
     private String title_hu;
     @NotNull
-    @Size(min=15, max=100000000)
+    @Size(min=5)
     private String content_hu;
     @NotNull
-    @Size(min=2, max=50)
+    @Size(min=5)
     private String title_en;
     @NotNull
-    @Size(min=15, max=100000000)
+    @Size(min=5)
     private String content_en;
     @NotNull
     private String link;
+    @NotNull
+    private String websiteName;
 
     public Article(){}
-    public Article(@JsonProperty("date") LocalDate date, @JsonProperty("title_hu") String title_hu, @JsonProperty("content_hu") String content_hu, @JsonProperty("title_en") String title_en, @JsonProperty("content_en") String content_en, @JsonProperty("link") String link){
+    public Article(@JsonProperty("date") LocalDate date, @JsonProperty("title_hu") String title_hu, @JsonProperty("content_hu") String content_hu, @JsonProperty("title_en") String title_en,
+                   @JsonProperty("content_en") String content_en, @JsonProperty("link") String link, @JsonProperty("website_name") String websiteName){
         this.title_hu = title_hu;
         this.content_hu = content_hu;
         this.title_en = title_en;
         this.content_en = content_en;
         this.link = link;
+        this.websiteName = websiteName;
         this.date = LocalDate.now();
         if(date!= null){
             this.date = date;
@@ -99,5 +103,13 @@ public class Article {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public String getWebsiteName() {
+        return websiteName;
+    }
+
+    public void setWebsiteName(String websiteName) {
+        this.websiteName = websiteName;
     }
 }

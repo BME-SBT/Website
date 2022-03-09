@@ -1,0 +1,33 @@
+<app-nav-bar></app-nav-bar>
+<div class="fileStorage">
+    <div class="container col-12 col-sm-12 col-lg-8 col-md-11 align-items-center">
+        <h1 translate class="title pb-lg-4 pb-md-4 pb-0">FILE_STORAGE.files</h1>
+        <div class="align-items-center justify-content-center col-12 d-flex flex-column" *ngIf="authority == 'admin'">
+            <div class="row col-12 align-items-start justify-content-around">
+                <div class="col-12 col-sm-6 col-md-6 card mb-5 ml-3 fileStorageForm" id="fileStorageForm">
+                    <h2 class="title pb-3">Új fájl hozzáadása</h2>
+                
+                    <div>
+                        <form #fileStorageForm="ngForm">
+                            <div class="col-11 col-md-6 col-lg-6 col-sm-10 pb-4 pl-3">
+                                <ngx-dropzone (change)="onSelect($event)"
+                                    accept="image/jpeg,image/jpg,image/png,application/pdf">
+                                    <ngx-dropzone-label>Húzd ide a fájlt!</ngx-dropzone-label>
+                                    <ngx-dropzone-preview *ngFor="let f of files" [removable]="true"
+                                        (removed)="onRemove(f)">
+                                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                                    </ngx-dropzone-preview>
+                                </ngx-dropzone>
+                            </div>
+                            <a class="btn" (click)="uploadFile($event, fileStorageForm)" href="javascript:void(0)"
+                                [ngClass]="{ disabled: !fileStorageForm.form.valid }"><span>Feltöltés</span></a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<app-footer></app-footer>
