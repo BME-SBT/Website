@@ -70,6 +70,7 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
 import { MatButtonModule } from '@angular/material/button';
 import { PressPreviewComponent } from './press-preview/press-preview.component';
 import { PressComponent } from './press/press.component';
+import { FileStorageComponent } from './file-storage/file-storage.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -113,7 +114,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         SafePipe,
         ConfirmDialogComponent,
         PressPreviewComponent,
-        PressComponent
+        PressComponent,
+        FileStorageComponent
     ],
     // tslint:disable-next-line:max-line-length
     imports: [

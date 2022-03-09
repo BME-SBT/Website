@@ -130,5 +130,8 @@
     "title": "{{title_hu}}",
     "link": "{{link}}",
     "content": "{{content_hu}}"
+  },
+  "FILE_STORAGE":{
+    "files":"fájlok"
   }
 }

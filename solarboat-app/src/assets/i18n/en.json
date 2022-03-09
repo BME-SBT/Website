@@ -125,5 +125,8 @@
     "title": "{{title_en}}",
     "link": "{{link}}",
     "content": "{{content_en}}"
+  },
+  "FILE_STORAGE":{
+    "files":"files"
   }
 }
