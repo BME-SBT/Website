@@ -15,9 +15,7 @@ textarea{
   height: 100%;
 }
 @media only screen and (max-width: 768px) {
-  .jumbotron{
-
-  }
+ 
   div.container{
     padding-left: 0px !important;
     padding-right: 0px !important;
@@ -38,4 +36,12 @@ textarea{
 .localization-tabs{
   margin-bottom: 1rem;
 }
+.col {
+  display: inline-block;
+  flex-wrap: wrap;
+  height: fit-content;
+}
 
+.w50 {
+  width: 50%
+}

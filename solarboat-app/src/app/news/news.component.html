@@ -117,14 +117,23 @@
                         </form>
                     </div>
                 </div>
-                <div class="row justify-content-between">
+                <div id="container" class="col">
+                    <app-news-preview
+                    *ngFor="let news of allnews"
+                    [news]="news" [authority]="authority"
+                    (onRemove)="onDeleteNews($event)"
+                    class="col col-lg-6 col-md-6 col-12 col-sm-12"
+                    ></app-news-preview>
+                </div>
+
+                <!-- <div class="row justify-content-between">
                     <app-news-preview
                             *ngFor="let news of allnews"
                             [news]="news" [authority]="authority"
                             (onRemove)="onDeleteNews($event)"
                             class="col-lg-6 col-md-6 col-12 col-sm-12"
                     ></app-news-preview>
-                </div>
+                </div> -->
             </div>
             <div class="row align-items-center justify-content-center">
                 <div class="col- load-more pt-5">

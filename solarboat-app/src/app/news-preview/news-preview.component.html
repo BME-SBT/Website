@@ -8,7 +8,8 @@
                 <mat-icon class="update-icon bigger-icon">delete</mat-icon>
             </a>
         </div>
-        <div (click)="openContent(longContent, news.content_hu.length > 650)">
+        <div  (click)="openContent(longContent, news.content_hu.length > 1200)">
+        
             <h2 id="news-title" translate class="title mb-2 mt-4"
                 [translateParams]="{ title_hu: news.title_hu, title_en: news.title_en}">NEWS.title</h2>
             <div class="row date col-12 date mt-2 mb-2 align-items-center">
@@ -30,6 +31,7 @@
                 <div class="col-12 single-picture">
                     <img [src]="news.pictures[0]" alt="logo" title="logo"/>
                 </div>
+      
             </div>
 <!--            <mdb-carousel *ngIf="news.pictures.length>0">-->
 <!--                <mdb-carousel-item>-->
@@ -49,7 +51,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body pb-5">
+    <div class="modal-body mr-3 ml-3 mb-2">
         <div class="row date col-12 date mt-2 mb-2 align-items-center">
             <mat-icon class="bigger-icon">calendar_today</mat-icon>
             <div class="pl-1">{{news.date| date:'yyyy.MM.dd'}}</div>

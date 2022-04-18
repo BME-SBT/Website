@@ -36,7 +36,7 @@
 }
 .date{
     font-size: 0.7rem;
-    font-family: "helvetica";
+    font-family: "Helvetica";
 }
 .single-picture img {
     max-width: 100%;
@@ -57,7 +57,7 @@ mat-icon.bigger-icon{
     display:block;
     letter-spacing:0.1em;
     font-size:0.75rem;
-    font-family: "Kelson Sans Light";
+    font-family: "KelsonSans-Light";
     opacity:0;
     will-change:transform;
     -webkit-transform:translateX(-12px);transform:translateX(-12px);-webkit-transition:opacity 0.4s cubic-bezier(0.39, 0.575, 0.565, 1), -webkit-transform 0s cubic-bezier(0.39, 0.575, 0.565, 1) 0.4s;transition:opacity 0.4s cubic-bezier(0.39, 0.575, 0.565, 1), -webkit-transform 0s cubic-bezier(0.39, 0.575, 0.565, 1) 0.4s;transition:opacity 0.4s cubic-bezier(0.39, 0.575, 0.565, 1), transform 0s cubic-bezier(0.39, 0.575, 0.565, 1) 0.4s;transition:opacity 0.4s cubic-bezier(0.39, 0.575, 0.565, 1), transform 0s cubic-bezier(0.39, 0.575, 0.565, 1) 0.4s, -webkit-transform 0s cubic-bezier(0.39, 0.575, 0.565, 1) 0.4s

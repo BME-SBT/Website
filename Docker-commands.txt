@@ -38,5 +38,7 @@ docker image/container prune
 5. Leallitod a most futó containert: "docker stop container"
 6. Elinditasz egy kontenert a mostani imaggel: puttyban docker run valami nagyon hosszu parancs es a legvegere beleirod a betoltott image nevet
 
+docker run -d --rm --name sb_container -p 81:8080 -v sql:/var/lib/mysql -v html_assets:/var/www/html/ solarboat_image0309
+
 docker image ls
 docker rmi *imageneve*
