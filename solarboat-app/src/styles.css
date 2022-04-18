@@ -11,6 +11,11 @@
     font-family: KelsonSans-Normal;
     src: url(assets/fonts/KelsonSans-Normal.otf) format("opentype");
 }
+@font-face {
+    font-family: Helvetica;
+    src: url(assets/fonts/Helvetica.ttf) format("opentype");
+}
+
 
 
 /*  h0 - title
@@ -39,7 +44,7 @@ h3.title{
     margin: 0;
 }
 p{
-    font-family: 'Helvetica';
+    font-family: 'Helvetica', 'Roboto';
     font-size: 1rem;
 }
 

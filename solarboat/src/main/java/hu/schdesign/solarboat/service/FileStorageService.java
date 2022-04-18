@@ -1,6 +1,11 @@
 package hu.schdesign.solarboat.service;
 
 
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.imaging.ImageProcessingException;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.MetadataException;
+import com.drew.metadata.exif.ExifIFD0Directory;
 import hu.schdesign.solarboat.Exceptions.FileStorageException;
 import hu.schdesign.solarboat.Exceptions.MyFileNotFoundException;
 import hu.schdesign.solarboat.FileStorageProperties;
@@ -62,14 +67,42 @@ public class FileStorageService {
         Image image = ImageIO.read(is);
         originalImage.getGraphics().drawImage(image, 0, 0, null);
         originalImage.getGraphics().dispose();
-        if (originalImage.getWidth() > width) {
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            String ext = file.getContentType().contains("png") ? "png" : "jpg";
-            ImageIO.write(Scalr.resize(originalImage, width), ext, baos);
-            baos.flush();
-            MultipartFile newFile = new MockMultipartFile(file.getName(), file.getOriginalFilename(), file.getContentType(), baos.toByteArray());
-            return newFile;
+        try {
+            final Metadata metadata = ImageMetadataReader.readMetadata(file.getInputStream());
+            ExifIFD0Directory exifIFD0 = metadata.getDirectory(ExifIFD0Directory.class);
+            int orientation = exifIFD0.getInt(ExifIFD0Directory.TAG_ORIENTATION);
+            Scalr.Rotation rotation = null;
+            switch (orientation) {
+                case 1: // [Exif IFD0] Orientation - Top, left side (Horizontal / normal)
+                    rotation = null;
+                    break;
+                case 6: // [Exif IFD0] Orientation - Right side, top (Rotate 90 CW)
+                    rotation = Scalr.Rotation.CW_90;
+                    break;
+                case 3: // [Exif IFD0] Orientation - Bottom, right side (Rotate 180)
+                    rotation = Scalr.Rotation.CW_180;
+                    break;
+                case 8: // [Exif IFD0] Orientation - Left side, bottom (Rotate 270 CW)
+                    rotation = Scalr.Rotation.CW_270;
+                    break;
+            }
+
+            if (originalImage.getWidth() > width) {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                String ext = file.getContentType().contains("png") ? "png" : "jpg";
+                if (rotation != null) {
+                    BufferedImage rotatedImage = Scalr.rotate(originalImage, rotation);
+                    ImageIO.write(Scalr.resize(rotatedImage, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.FIT_TO_WIDTH, width), ext, baos);
+                } else {
+                    ImageIO.write(Scalr.resize(originalImage, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.FIT_TO_WIDTH, width), ext, baos);
+                }
+                baos.flush();
+                MultipartFile newFile = new MockMultipartFile(file.getName(), file.getOriginalFilename(), file.getContentType(), baos.toByteArray());
+                return newFile;
+            }
+        } catch (ImageProcessingException | MetadataException e) {
+            e.printStackTrace();
         }
         return file;
     }

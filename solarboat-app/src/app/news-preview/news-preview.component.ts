@@ -34,6 +34,7 @@ export class NewsPreviewComponent implements OnInit {
     config: AngularEditorConfig = {
         editable: true,
         spellcheck: true,
+        sanitize: false,
         height: '15rem',
         minHeight: '5rem',
         placeholder: 'Hír szövege...',
