@@ -37,8 +37,8 @@ public class GalleryService {
             picture = fileStorageService.resizeImage(file, this.PATH, this.PICTURE_WIDTH);
             smallPicture = fileStorageService.resizeImage(file, this.PATH, this.SMALL_PICTURE_WIDTH);
 
-        newGalleryPicture.setPicture(fileStorageService.storeResizedFile(picture, "gallery", ""));
-        newGalleryPicture.setSmallPicture(fileStorageService.storeResizedFile(smallPicture, "gallery", "small"));
+        newGalleryPicture.setPicture(fileStorageService.storeResizedFile(picture, "gallery", "")[0]);
+        newGalleryPicture.setSmallPicture(fileStorageService.storeResizedFile(smallPicture, "gallery", "small")[0]);
         return galleryRepository.save(newGalleryPicture);
     }
     public void deletePictureById(Long id){

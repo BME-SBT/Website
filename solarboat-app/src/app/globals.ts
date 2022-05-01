@@ -5,8 +5,8 @@ export class Globals {
         //  BASE_URL = 'http://localhost:8080';
         BASE_URL = 'https://solarboatteam.hu';
 
-        // IMG_ROUTE = '../../assets/';
-       IMG_ROUTE = '/var/www/html/assets/';
+        IMG_ROUTE = '../../assets/';
+//        IMG_ROUTE = '/var/www/html/assets/';
 
         formatDate(date) {
                 const newDate = new Date(date);
