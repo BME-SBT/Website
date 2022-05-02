@@ -40,7 +40,7 @@ public class FileController {
     @GetMapping("files/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
         // Load file as Resource
-        Resource resource = fileStorageService.loadFileAsResource(fileName);
+        Resource resource = fileStorageService.loadFileAsResource(fileName, "files");
 
         // Try to determine file's content type
         String contentType = null;

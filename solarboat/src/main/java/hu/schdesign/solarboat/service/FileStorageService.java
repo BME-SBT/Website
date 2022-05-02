@@ -10,7 +10,6 @@ import hu.schdesign.solarboat.Exceptions.FileStorageException;
 import hu.schdesign.solarboat.Exceptions.MyFileNotFoundException;
 import hu.schdesign.solarboat.FileStorageProperties;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.tika.Tika;
 import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -20,23 +19,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.Iterator;
 
 @Service
 public class FileStorageService {
@@ -228,7 +223,7 @@ public class FileStorageService {
             }
 
             // Copy file to the target location (Replacing existing file with the same name)
-            Path targetLocation = this.fileStorageLocation.resolve(fileName);
+            Path targetLocation = path.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
             String[] returnString = new String[3];
@@ -243,7 +238,9 @@ public class FileStorageService {
 
     public Resource loadFileAsResource(String fileName, String path) {
         try {
-            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
+            Path fullPath = Paths.get(this.path + "/" + path)
+                    .toAbsolutePath().normalize();
+            Path filePath = fullPath.resolve( fileName).normalize();
             Resource resource = new UrlResource(filePath.toUri());
 
             if (resource.exists()) {

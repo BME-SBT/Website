@@ -151,7 +151,7 @@ public class DataGroupController {
     }
 
     private ResponseEntity<Resource> exportFile(HttpServletRequest request) throws Exception {
-        Resource resource = fileStorageService.loadFileAsResource("boatdata.csv");
+        Resource resource = fileStorageService.loadFileAsResource("boatdata.csv", "");
 
         // Try to determine file's content type
         String contentType = null;
