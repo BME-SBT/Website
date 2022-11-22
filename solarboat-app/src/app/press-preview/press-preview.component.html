@@ -1,17 +1,9 @@
 <a class="
     card
     lift
-    mb-md-5
-    mr-md-3
-    ml-md-3
-    mb-lg-5
-    mr-lg-3
-    ml-lg-3
-    mr-0
-    ml-0
-    mb-5
+    p-3 m-2
   ">
-    <div class="card-body m-3">
+    <div class="card-body m-0 p-0">
         <div *ngIf="authority == 'admin'" class="row justify-content-end">
             <a class="col-2" (click)="openContent(Edit, true)">
                 <mat-icon class="update-icon bigger-icon">edit</mat-icon>
@@ -21,7 +13,7 @@
             </a>
         </div>
         <div (click)="openLink(article.link)">
-            <h2 id="article-title" translate class="title mb-1 mt-4" [translateParams]="{
+            <h2 id="article-title" translate class="title mb-1 mt-1" [translateParams]="{
           title_hu: article.title_hu,
           title_en: article.title_en
         }">
@@ -30,11 +22,11 @@
             <h3 id="article-website_name" class="title mb-1 mt-1">
                 {{ article.website_name }}
             </h3>
-            <div class="row date col-12 p-0  mt-1 mb-1 align-items-center">
+            <div class="row date col-12 p-0  mt-1 mb-1 pl-2 align-items-center">
                 <mat-icon class="bigger-icon">calendar_today</mat-icon>
                 <div class="">{{ article.date | date: "yyyy.MM.dd" }}</div>
             </div>
-            <div class="text-wrap col-12 p-0 mt-1 mb-1">
+            <div class="text-wrap col-12 p-0 mt-1 ">
                 <p translate class="card-text text-break" [translateParams]="{
             content_en: article.content_en,
             content_hu: article.content_hu
@@ -42,23 +34,7 @@
                     ARTICLE.content
                 </p>
             </div>
-            <div class="
-          arrow-read
-          col-md-6
-          offset-md-6
-          col-lg-6
-          offset-lg-6
-          col-10
-          offset-2
-          p-0
-          mt-4
-          d-none d-lg-block
-        ">
-                <div translate class="read-more m-0">
-                    <mat-icon class="bigger-icon" aria-hidden="false">arrow_right_alt</mat-icon>
-                    BUTTON.open
-                </div>
-            </div>
+
         </div>
     </div>
 </a>
@@ -109,7 +85,7 @@
                             <div class="col-md-6 col-lg-6 col-12">
                                 <div class="form-group">
                                     <mat-form-field [style.width.px]="400">
-                                        <input matInput maxlength="50" minlength="2" name="title" type="text" id="title"
+                                        <input matInput minlength="2" name="title" type="text" id="title"
                                             [(ngModel)]="form.title" required placeholder="Cím" />
                                         <mat-error>Kötelező mező</mat-error>
                                     </mat-form-field>
@@ -118,7 +94,7 @@
                             <div class="col-md-12 col-lg-12 col-12">
                                 <div class="form-group">
                                     <mat-form-field [style.width.px]="400">
-                                        <textarea matInput maxlength="50" minlength="2" name="content" type="text"
+                                        <textarea matInput  minlength="2" name="content" type="text"
                                             id="content" [(ngModel)]="form.content" required
                                             placeholder="Leírás"></textarea>
                                         <mat-error>Kötelező mező</mat-error>

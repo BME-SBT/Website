@@ -32,12 +32,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 @Service
 public class FileStorageService {
 
     private Path fileStorageLocation;
     private final String path;
+    private final int PICTURE_WIDTH = 1920;
+    private final int SMALL_PICTURE_WIDTH = 480;
 
     @Autowired
     public FileStorageService(FileStorageProperties fileStorageProperties) {
@@ -52,8 +55,8 @@ public class FileStorageService {
         }
     }
 
-    public MultipartFile resizeImage(MultipartFile file, String path, int width) throws IOException {
-        if (!file.getContentType().contains("image")) {
+    public MultipartFile resizeImage(MultipartFile file, String path, int size) throws IOException {
+        if (!Objects.requireNonNull(file.getContentType()).contains("image")) {
             throw new RuntimeException("Rossz fájlformátum!");
         }
         BufferedImage tempImage = ImageIO.read(file.getInputStream());
@@ -85,19 +88,34 @@ public class FileStorageService {
                         break;
                 }
             }
-            if (originalImage.getWidth() > width) {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                String ext = file.getContentType().contains("png") ? "png" : "jpg";
-                if (rotation != null) {
-                    BufferedImage rotatedImage = Scalr.rotate(originalImage, rotation);
-                    ImageIO.write(Scalr.resize(rotatedImage, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.FIT_TO_WIDTH, width), ext, baos);
-                } else {
-                    ImageIO.write(Scalr.resize(originalImage, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.FIT_TO_WIDTH, width), ext, baos);
-                }
-                baos.flush();
-                MultipartFile newFile = new MockMultipartFile(file.getName(), file.getOriginalFilename(), file.getContentType(), baos.toByteArray());
-                return newFile;
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            String ext = file.getContentType().contains("png") ? "png" : "jpg";
+            BufferedImage rotatedImage = originalImage;
+            if (rotation != null) {
+                rotatedImage = Scalr.rotate(originalImage, rotation);
             }
+            if(size == SMALL_PICTURE_WIDTH){
+
+                if ( rotatedImage.getWidth() > size) {
+                    ImageIO.write(Scalr.resize(rotatedImage, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.FIT_TO_WIDTH, size), ext, baos);
+                } else {
+                    ImageIO.write(rotatedImage, ext, baos);
+                }
+            }
+            else{
+
+                if (rotatedImage.getHeight() > rotatedImage.getWidth() && rotatedImage.getHeight() > size) {
+                    ImageIO.write(Scalr.resize(rotatedImage, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.FIT_TO_HEIGHT, size, size), ext, baos);
+                } else if (rotatedImage.getHeight() < rotatedImage.getWidth() && rotatedImage.getWidth() > size) {
+                    ImageIO.write(Scalr.resize(rotatedImage, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.FIT_TO_WIDTH, size), ext, baos);
+                } else {
+                    ImageIO.write(rotatedImage, ext, baos);
+                }
+            }
+            baos.flush();
+            MultipartFile newFile = new MockMultipartFile(file.getName(), file.getOriginalFilename(), file.getContentType(), baos.toByteArray());
+            return newFile;
+
         } catch (ImageProcessingException | MetadataException e) {
             e.printStackTrace();
         }
@@ -127,7 +145,7 @@ public class FileStorageService {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         concatFilename = concatFilename + "." + extension;
 //        concatFilename = concatFilename + "_" + timestamp.getTime() + "." + extension;
-        System.out.println(concatFilename);
+//        System.out.println(concatFilename);
         String fileName = StringUtils.cleanPath(concatFilename);
 
         try {
@@ -240,7 +258,7 @@ public class FileStorageService {
         try {
             Path fullPath = Paths.get(this.path + "/" + path)
                     .toAbsolutePath().normalize();
-            Path filePath = fullPath.resolve( fileName).normalize();
+            Path filePath = fullPath.resolve(fileName).normalize();
             Resource resource = new UrlResource(filePath.toUri());
 
             if (resource.exists()) {

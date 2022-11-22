@@ -43,7 +43,8 @@
     "uni":"Budapest University of Technology and Economics"
   },
   "GALLERY":{
-    "gallery":"gallery"
+    "gallery":"gallery",
+    "name":"{{name_en}}"
   },
   "ACHIEVEMENTS":{
     "achievements":"achievements",

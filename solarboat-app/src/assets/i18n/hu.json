@@ -44,7 +44,8 @@
     "uni":"Budapesti Műszaki és Gazdaságtudományi Egyetem"
   },
   "GALLERY":{
-    "gallery":"galéria"
+    "gallery":"galéria",
+    "name": "{{name_hu}}"
   },
   "ACHIEVEMENTS":{
     "achievements":"eredmények",
@@ -134,4 +135,5 @@
   "FILE_STORAGE":{
     "files":"fájlok"
   }
+
 }

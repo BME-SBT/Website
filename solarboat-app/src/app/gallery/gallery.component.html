@@ -1,33 +1,13 @@
 <app-nav-bar></app-nav-bar>
 <div class="gallery">
     <div class="container col-12 col-sm-12 col-lg-8 col-md-11 align-items-center">
-        <h1 translate class="title pb-lg-4 pb-md-4 pb-0">GALLERY.gallery</h1>
+        <h1 translate class="title pb-lg-4 pb-md-4 pb-0" [translateParams]="{ name_hu: gallery.name_hu, name_en: gallery.name_en}">GALLERY.name</h1>
         <div class="align-items-center justify-content-center col-12 d-flex flex-column" *ngIf="authority == 'admin'">
             <div class="row col-12 align-items-start justify-content-around">
-                <div class="col-12 col-sm-6 col-md-6 card mb-5 ml-3 galleryform" id="galleryform">
+                <div class="col-12 col-sm-5 col-md-5 card mb-5 ml-3 galleryform" id="galleryform">
                     <h2 class="title pb-3">Új kép hozzáadása</h2>
                     <div>
                         <form #galleryForm="ngForm"  >
-                            <mat-tab-group mat-align-tabs="start">
-                                <mat-tab label="MAGYAR">
-                                    <div class="form-group pt-3">
-                                        <mat-form-field class="col-8 p-0">
-                                            <input matInput name="title_hu" type="text" id="title_hu"
-                                                [(ngModel)]="newPicture.title_hu" placeholder="Cím" required />
-                                            <mat-error>Kötelező mező</mat-error>
-                                        </mat-form-field>
-                                    </div>
-                                </mat-tab>
-                                <mat-tab label="ANGOL" class="pt-3">
-                                    <div class="form-group pt-3">
-                                        <mat-form-field class="col-8 p-0">
-                                            <input matInput name="title_en" type="text" id="title_en"
-                                                [(ngModel)]="newPicture.title_en" placeholder="Title" required />
-                                                <mat-error>Kötelező mező</mat-error>
-                                        </mat-form-field>
-                                    </div>
-                                </mat-tab>
-                            </mat-tab-group>
                             <div class="row">
                                 <!-- <div class="form-group">
                                     <label for="file">Fénykép</label>
@@ -35,9 +15,9 @@
                                            (change)="handleFileInput($event.target.files)"
                                            [ngClass]="{'failed': failed }"/>
                                 </div> -->
-                                <div class="col-11 col-md-6 col-lg-6 col-sm-10 pb-4 pl-3">
+                                <div class="col-12 pb-4 pl-3">
                                     <ngx-dropzone (change)="onSelect($event)" accept="image/jpeg,image/jpg,image/png">
-                                        <ngx-dropzone-label>Húzd ide a képet!</ngx-dropzone-label>
+                                        <ngx-dropzone-label>Húzd ide a képeket!</ngx-dropzone-label>
                                         <ngx-dropzone-preview *ngFor="let f of files" [removable]="true"
                                             (removed)="onRemove(f)">
                                             <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
@@ -54,7 +34,7 @@
 
                             <!-- <a class="btn" (click)="uploadFileToActivity()" href="javascript:void(0)" [ngClass]="{'disabled': !isEnabled(loginForm.form.valid)}" ><span>Feltöltés</span></a> -->
                           
-                            <a class="btn" (click)="uploadGalleryPicture($event, galleryForm)" href="javascript:void(0)"
+                            <a class="btn" (click)="uploadImages($event, galleryForm)" href="javascript:void(0)"
                                 [ngClass]="{ disabled: !galleryForm.form.valid }"><span>Feltöltés</span></a>
                         </form>
                     </div>
@@ -65,7 +45,7 @@
                     <div>
                         <form #videoForm="ngForm">
                             <div class="form-group">
-                                <mat-form-field class="col-8 p-0">
+                                <mat-form-field class="col-12 p-0">
                                     <input matInput name="link" type="text" id="link" class="form-control " id="link"
                                         [(ngModel)]="newVideo.link" placeholder="Videó linkje" required />
                                     <mat-hint class="mathint">Innen másold be a linket: Youtube - megosztás -
@@ -87,11 +67,39 @@
                         </form>
                     </div>
                 </div>
+
+                <div class="col-12 col-sm-5 col-md-5 card mb-5 ml-3 galleryform" id="coverForm">
+                    <h2 class="title pb-3">Borítókép kiválasztása</h2>
+                        <form #coverForm="ngForm">
+                            <div class="from-group">
+                                <mat-form-field class="col-12 p-0">
+                                    <mat-label>Borítókép</mat-label>
+                                    <mat-select [(value)]="coverImage" name="group" id="group" required>
+                                        <mat-option *ngFor="let img of gallery.images" [value]="img" >
+                                            {{ img.smallImage }}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-hint>Melyik kép legyen a csoport borítója</mat-hint>
+                                </mat-form-field>
+                            </div>
+                           
+                            <!-- <a class="btn" (click)="uploadFileToActivity()" href="javascript:void(0)" [ngClass]="{'disabled': !isEnabled(loginForm.form.valid)}" ><span>Feltöltés</span></a> -->
+                            <div class="d-flex align-content-end flex-wrap pt-3 mt-5">
+                                <a class="btn" (click)="setCoverImage(coverForm)" href="javascript:void(0)"
+                                    [ngClass]="{ disabled: !coverForm.form.valid }"><span>Feltöltés</span></a>
+                            </div>
+
+                            <div [hidden]="!coverFailed" class="alert alert-danger mt-3">
+                                {{ errorMessage }}
+                            </div>
+                        </form>
+                </div>
+                
             </div>
         </div>
         <div class="align-items-center justify-content-center col-12 d-flex flex-column">
             <div class="row col-12 align-items-center justify-content-center">
-                <div *ngFor="let video of videos"
+                <div  *ngFor="let video of gallery.videos"
                     class="d-flex justify-content-center col-12 col-lg-6 col-md-6 p-3 mb-lg-3 pb-md-3">
                     <iframe class="p-3" width="432" height="260" [src]="video.link | safe" frameborder="0"
                     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
@@ -103,12 +111,12 @@
 
             <div class="justify-content-center d-flex mb-5" *ngIf="largeWidth">
                 <div class="gallery justify-content-center" id="photos">
-                    <div *ngFor="let img of gallery" class="picture">
+                    <div *ngFor="let img of gallery.images" class="picture">
                         <a (click)="deletePicture(img.id)" class="close" *ngIf="authority == 'admin'">&times;</a>
 
-                        <a href="{{ img.picture }}" data-lightbox="gallery">
+                        <a href="{{ img.image }}" data-lightbox="gallery">
                             <div class="img-wrap">
-                                <img src="{{ img.smallPicture }}" alt="{{ img.title_hu }}" />
+                                <img src="{{ img.smallImage }}" alt="{{ img.title_hu }}" />
                             </div>
                         </a>
                     </div>
@@ -119,9 +127,9 @@
                     <div *ngFor="let img of gallery" class="picture">
                         <a (click)="deletePicture(img.id)" class="close" *ngIf="authority == 'admin'">&times;</a>
 
-                        <a href="{{ img.smallPicture }}" data-lightbox="gallery">
+                        <a href="{{ img.smallImage }}" data-lightbox="gallery">
                             <div class="img-wrap">
-                                <img src="{{ img.smallPicture }}" alt="{{ img.title_hu }}" />
+                                <img src="{{ img.smallImage }}" alt="{{ img.title_hu }}" />
                             </div>
                         </a>
                     </div>

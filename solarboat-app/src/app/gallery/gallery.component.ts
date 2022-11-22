@@ -11,6 +11,11 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
 import {Globals} from "../globals";
+import { ActivatedRoute } from '@angular/router';
+import { GalleryService } from "../shared/gallery.service";
+import { Gallery } from "../model/gallery";
+import { Image } from "../model/image";
+
 
 
 // import AOS from 'aos';
@@ -23,37 +28,40 @@ import {Globals} from "../globals";
 export class GalleryComponent implements OnInit {
     constructor(
         private pictureService: PictureService,
-        private router: Router,
+        // private router: Router,
         private tokenStorage: TokenStorageService,
         private videoService: VideoService,
         private toastr: ToastrService,
         private dialog: MatDialog,
-        private globals: Globals
+        private globals: Globals,
+        private route: ActivatedRoute,
+        private galleryService: GalleryService
     ) {
     }
 
-    @Output() gallery: GalleryPicture[];
-    newPicture: GalleryPictureRequest;
-    @Output() videos: Video[];
+    @Output() gallery: Gallery = new Gallery();
+    // newPicture: GalleryPictureRequest;
     newVideo: Video;
+    coverImage : Image;
     failed = false;
+    coverFailed = false;
     videoFailed = false;
     errorMessage = "";
-    picturesSelected = false;
     // pic = false;
     // smallPic = false;
     public authority: string;
     public roles: string[];
     public largeWidth: boolean;
-    fileToUpload: File;
+    // fileToUpload: File;
     files: File[] = [];
+    private galleryId;
 
     ngOnInit(): void {
         // AOS.init();
         this.checkAuth();
-        this.loadGallery();
-        this.loadVideos();
-        this.newPicture = new GalleryPictureRequest();
+        const routeParams = this.route.snapshot.paramMap;
+        this.galleryId = Number(routeParams.get('galleryId'));
+        this.loadGallery()
         this.newVideo = new Video();
         this.largeWidth = (window.innerWidth < 768) ? false : true;
     }
@@ -61,53 +69,33 @@ export class GalleryComponent implements OnInit {
     @HostListener('window:resize', ['$event'])
     onResize(event) {
         this.largeWidth = (window.innerWidth < 768) ? false : true;
-        console.log(this.largeWidth);
     }
 
-    // handleFileInput(files: FileList) {
-    //   this.fileToUpload = files.item(0);
-    //   this.newPicture.picture = files.item(0);
-    //   console.log(this.newPicture);
-    //   this.pic = true;
-    //   if (this.pic) {
-    //     this.picturesSelected = true;
-    //   }
-    // }
     onSelect(event) {
         if (this.files.length > 0) {
             this.files = [];
         }
         this.files.push(...event.addedFiles);
-        this.newPicture.picture = this.files[0];
-        this.picturesSelected = true;
     }
 
     onRemove(event) {
         this.files.splice(this.files.indexOf(event), 1);
-        this.picturesSelected = false;
-
     }
 
-    uploadGalleryPicture(event, empForm: any) {
-
-        if (this.newPicture.title_hu == null) {
-            //this.newPicture.title_hu = ' ';
-        }
-        if (this.newPicture.title_en == null) {
-            //this.newPicture.title_en = ' ';
-        }
-        this.pictureService.postGalleryPicture(this.newPicture).subscribe(
+    uploadImages(event, empForm: any) {
+        this.galleryService.postImages(this.galleryId, this.files).subscribe(
             (data) => {
                 event.preventDefault();
                 // do something, if upload success
                 //this.uploadFileToActivity();
-                this.newPicture = new GalleryPictureRequest();
-                this.gallery.push(data);
+                this.gallery.images = data.images;
                 //this.loadGallery();
                 this.showSuccess('Sikeres mentés');
             },
             (error) => {
-                this.showError(error.message, 'Hiba a fájlfeltöltéskor');
+                this.showError(error.error.message, 'Hiba a fájlfeltöltéskor');
+                event.preventDefault();
+
             }
         );
         empForm.reset();
@@ -115,13 +103,13 @@ export class GalleryComponent implements OnInit {
     }
 
     loadGallery() {
-        this.pictureService.getGallery().subscribe((res) => {
+        this.galleryService.getGalleryById(this.galleryId).subscribe((res) => {
             this.gallery = res;
-            this.gallery.forEach((s) => {
-                s.picture = this.globals.IMG_ROUTE + "gallery/"+s.picture;
+            this.gallery.images.forEach((s) => {
+                s.image = this.globals.IMG_ROUTE + "gallery/"+s.image;
             });
-            this.gallery.forEach(
-                (s) => (s.smallPicture = this.globals.IMG_ROUTE + "/gallery/"+s.smallPicture)
+            this.gallery.images.forEach(
+                (s) => (s.smallImage = this.globals.IMG_ROUTE + "gallery/"+s.smallImage)
             );
         });
     }
@@ -133,12 +121,12 @@ export class GalleryComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.pictureService.deleteGalleryPicture(id).subscribe(
+                this.galleryService.deleteImage(this.galleryId, id).subscribe(
                     (data) => {
-                        const du = this.gallery.find((a) => a.id === id);
-                        const index = this.gallery.indexOf(du, 0);
+                        const du = this.gallery.images.find((a) => a.id === id);
+                        const index = this.gallery.images.indexOf(du, 0);
                         if (index > -1) {
-                            this.gallery.splice(index, 1);
+                            this.gallery.images.splice(index, 1);
                         }
                         this.showSuccess('Sikeres törlés');
                     },
@@ -185,36 +173,34 @@ export class GalleryComponent implements OnInit {
 
 
     uploadVideo(empForm: any) {
-        this.videoService.postVideoLink(this.newVideo).subscribe(
+        this.galleryService.postNewVideo(this.galleryId, this.newVideo).subscribe(
             (data) => {
+                this.showSuccess('Sikeres mentés');
                 this.newVideo = new Video();
-                this.videos.push(data);
+                this.gallery.videos.push(data);
             },
             (error) => {
+                this.showError(error.error.message, 'Sikertelen mentés');
+
             }
         );
         empForm.reset();
     }
 
-    loadVideos() {
-        this.videoService.getAllLinks().subscribe((res) => {
-            this.videos = res;
-        });
-    }
 
     deleteVideo(id: number) {
         const dialogRef = this.dialog.open(ConfirmDialogComponent, {
             width: '300px',
-            data: 'Biztosan ki szeretnéd törölni a képet?'
+            data: 'Biztosan ki szeretnéd törölni a videót?'
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.videoService.deleteVideo(id).subscribe(
+                this.galleryService.deleteVideo(this.galleryId, id).subscribe(
                     (data) => {
-                        var du = this.videos.find((a) => a.id == id);
-                        const index = this.videos.indexOf(du, 0);
+                        var du = this.gallery.videos.find((a) => a.id == id);
+                        const index = this.gallery.videos.indexOf(du, 0);
                         if (index > -1) {
-                            this.videos.splice(index, 1);
+                            this.gallery.videos.splice(index, 1);
                         }
                         this.showSuccess('Sikeres törlés');
                     },
@@ -225,5 +211,21 @@ export class GalleryComponent implements OnInit {
             }
         });
     }
+    setCoverImage(empForm : any){
+        this.galleryService.patchCoverImage(this.galleryId, this.coverImage).subscribe(
+            (data) => {
+                this.showSuccess('Sikeres mentés');
+
+                this.gallery.coverImage = data.coverImage
+            },
+            (error) => {
+                this.showError(error.error.message, 'Sikertelen mentés');
+
+            }
+        );
+        empForm.reset();
+    }
+
+    
 
 }

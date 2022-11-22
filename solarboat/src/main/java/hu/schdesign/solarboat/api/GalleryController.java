@@ -15,10 +15,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Objects;
 import java.util.Optional;
 
+
+//NE EZT HASZÁLD, HANEM A GALLERYIMAGECONTROLLERT
 @CrossOrigin(origins = "*")
-@RequestMapping("api/gallery")
+//@RequestMapping("api/gallery")
 @RestController
 public class GalleryController {
     private final GalleryService galleryService;
@@ -35,8 +38,8 @@ public class GalleryController {
     @Secured("ROLE_EDITOR")
     @PostMapping()//(consumes = "application/json", produces = "application/json")
     public ResponseEntity<GalleryPicture> addPicture(@RequestParam("file") MultipartFile file, @RequestParam("title_hu") String titleHu, @RequestParam("title_en")String titleEn) throws URISyntaxException {
-        if(file == null){
-             if (!file.getContentType().contains("image")){
+        if(file != null){
+             if (!Objects.requireNonNull(file.getContentType()).contains("image")){
             HttpHeaders responseHeaders = new HttpHeaders();
             responseHeaders.setLocation(new URI("/uploadFile"));
             responseHeaders.set("Error", "The file is not an image");
