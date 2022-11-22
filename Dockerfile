@@ -1,9 +1,9 @@
-FROM node:12.14-stretch AS frontend-build
+FROM node:14.21 AS frontend-build
 WORKDIR /usr/src/app
-RUN npm install -g @angular/cli
-COPY solarboat-app/package.json ./
+COPY solarboat-app/package.json solarboat-app/package-lock.json  ./
 RUN npm install
 COPY solarboat-app .
+RUN npm install -g @angular/cli
 RUN ng build --prod
 
 
@@ -20,7 +20,7 @@ RUN /etc/init.d/mysql start && mysql < init.sql
 
 COPY solarboat/src src
 COPY --from=frontend-build /usr/src/app/dist src/main/resources/public/
-RUN /etc/init.d/mysql start && mvn -f pom.xml package
+RUN /etc/init.d/mysql start && mvn --debug -f pom.xml package
 
 VOLUME /var/www/html
 
