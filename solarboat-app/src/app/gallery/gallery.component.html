@@ -124,7 +124,7 @@
             </div>
             <div class="justify-content-center d-flex mb-5" *ngIf="!largeWidth">
                 <div class="gallery justify-content-center" id="photos">
-                    <div *ngFor="let img of gallery" class="picture">
+                    <div *ngFor="let img of gallery.images" class="picture">
                         <a (click)="deletePicture(img.id)" class="close" *ngIf="authority == 'admin'">&times;</a>
 
                         <a href="{{ img.smallImage }}" data-lightbox="gallery">

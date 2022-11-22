@@ -6,7 +6,8 @@ export class Globals {
         BASE_URL = 'https://solarboatteam.hu';
 
         // IMG_ROUTE = '../../assets/';
-       IMG_ROUTE = '/var/www/html/assets/';
+       IMG_ROUTE = '/assets/';
+
 
         formatDate(date) {
                 const newDate = new Date(date);
