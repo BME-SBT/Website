@@ -14,9 +14,12 @@ import {AuthGuardService} from "./shared/auth-guard.service";
 import {RoleType} from "./model/role-type.enum";
 import { PressComponent } from "./press/press.component";
 import { FileStorageComponent } from "./file-storage/file-storage.component";
+import { GalleryMainPageComponent } from "./gallery-main-page/gallery-main-page.component";
 
 const routes: Routes = [
-    {path: "gallery", component: GalleryComponent},
+    // {path: "gallery", component: GalleryComponent},
+    {path: "gallery", component: GalleryMainPageComponent},
+    {path: "gallery/:galleryId", component: GalleryComponent},
     {path: "auth/login", component: LoginComponent},
     {path: "signup", component: RegisterComponent},
     {path: "team", component: TeamComponent},

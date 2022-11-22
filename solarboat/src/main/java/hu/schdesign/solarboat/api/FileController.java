@@ -40,7 +40,7 @@ public class FileController {
     @GetMapping("files/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
         // Load file as Resource
-        Resource resource = fileStorageService.loadFileAsResource(fileName);
+        Resource resource = fileStorageService.loadFileAsResource(fileName, "files");
 
         // Try to determine file's content type
         String contentType = null;
@@ -65,12 +65,15 @@ public class FileController {
     @Secured("ROLE_USER")
     @PostMapping("/api/file/uploadFile")
     public ResponseEntity<UploadFileResponse> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("path") String path) throws URISyntaxException {
+        System.out.println(path);
         String fileName;
+        String[] returnValues;
         if (path.equals("file")) {
-            fileName = fileStorageService.storeFile(file);
+            returnValues = fileStorageService.storeFile(file);
         } else {
-            fileName = fileStorageService.storeImage(file, path);
+            returnValues = fileStorageService.storeImage(file, path);
         }
+        fileName = returnValues[0];
 
         if (fileName == null) {
             HttpHeaders responseHeaders = new HttpHeaders();
@@ -86,9 +89,10 @@ public class FileController {
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(new URI("uploadFile"));
 
-        return new ResponseEntity<UploadFileResponse>(new UploadFileResponse(fileName, fileDownloadUri,
-                file.getContentType(), file.getSize()), responseHeaders, HttpStatus.CREATED);
+        return new ResponseEntity<UploadFileResponse>(new UploadFileResponse(fileName,  fileDownloadUri,
+                file.getContentType(), file.getSize(), returnValues[2], returnValues[1]), responseHeaders, HttpStatus.CREATED);
     }
+
 
     @PostMapping("/api/file/uploadMultipleFiles")
     public List<ResponseEntity<UploadFileResponse>> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files, @RequestParam("path") String path) {

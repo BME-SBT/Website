@@ -71,6 +71,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { PressPreviewComponent } from './press-preview/press-preview.component';
 import { PressComponent } from './press/press.component';
 import { FileStorageComponent } from './file-storage/file-storage.component';
+import { GalleryMainPageComponent } from './gallery-main-page/gallery-main-page.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -115,7 +116,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         ConfirmDialogComponent,
         PressPreviewComponent,
         PressComponent,
-        FileStorageComponent
+        FileStorageComponent,
+        GalleryMainPageComponent
     ],
     // tslint:disable-next-line:max-line-length
     imports: [

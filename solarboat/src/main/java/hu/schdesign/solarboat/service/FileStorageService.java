@@ -10,7 +10,6 @@ import hu.schdesign.solarboat.Exceptions.FileStorageException;
 import hu.schdesign.solarboat.Exceptions.MyFileNotFoundException;
 import hu.schdesign.solarboat.FileStorageProperties;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.tika.Tika;
 import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -20,29 +19,28 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.Iterator;
+import java.util.Objects;
 
 @Service
 public class FileStorageService {
 
     private Path fileStorageLocation;
     private final String path;
+    private final int PICTURE_WIDTH = 1920;
+    private final int SMALL_PICTURE_WIDTH = 480;
 
     @Autowired
     public FileStorageService(FileStorageProperties fileStorageProperties) {
@@ -57,8 +55,8 @@ public class FileStorageService {
         }
     }
 
-    public MultipartFile resizeImage(MultipartFile file, String path, int width) throws IOException {
-        if (!file.getContentType().contains("image")) {
+    public MultipartFile resizeImage(MultipartFile file, String path, int size) throws IOException {
+        if (!Objects.requireNonNull(file.getContentType()).contains("image")) {
             throw new RuntimeException("Rossz fájlformátum!");
         }
         BufferedImage tempImage = ImageIO.read(file.getInputStream());
@@ -71,66 +69,83 @@ public class FileStorageService {
         try {
             final Metadata metadata = ImageMetadataReader.readMetadata(file.getInputStream());
             ExifIFD0Directory exifIFD0 = metadata.getDirectory(ExifIFD0Directory.class);
-            int orientation = exifIFD0.getInt(ExifIFD0Directory.TAG_ORIENTATION);
             Scalr.Rotation rotation = null;
-            switch (orientation) {
-                case 1: // [Exif IFD0] Orientation - Top, left side (Horizontal / normal)
-                    rotation = null;
-                    break;
-                case 6: // [Exif IFD0] Orientation - Right side, top (Rotate 90 CW)
-                    rotation = Scalr.Rotation.CW_90;
-                    break;
-                case 3: // [Exif IFD0] Orientation - Bottom, right side (Rotate 180)
-                    rotation = Scalr.Rotation.CW_180;
-                    break;
-                case 8: // [Exif IFD0] Orientation - Left side, bottom (Rotate 270 CW)
-                    rotation = Scalr.Rotation.CW_270;
-                    break;
-            }
+            if (exifIFD0 != null) {
+                int orientation = exifIFD0.getInt(ExifIFD0Directory.TAG_ORIENTATION);
 
-            if (originalImage.getWidth() > width) {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                String ext = file.getContentType().contains("png") ? "png" : "jpg";
-                if (rotation != null) {
-                    BufferedImage rotatedImage = Scalr.rotate(originalImage, rotation);
-                    ImageIO.write(Scalr.resize(rotatedImage, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.FIT_TO_WIDTH, width), ext, baos);
-                } else {
-                    ImageIO.write(Scalr.resize(originalImage, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.FIT_TO_WIDTH, width), ext, baos);
+                switch (orientation) {
+                    case 1: // [Exif IFD0] Orientation - Top, left side (Horizontal / normal)
+                        rotation = null;
+                        break;
+                    case 6: // [Exif IFD0] Orientation - Right side, top (Rotate 90 CW)
+                        rotation = Scalr.Rotation.CW_90;
+                        break;
+                    case 3: // [Exif IFD0] Orientation - Bottom, right side (Rotate 180)
+                        rotation = Scalr.Rotation.CW_180;
+                        break;
+                    case 8: // [Exif IFD0] Orientation - Left side, bottom (Rotate 270 CW)
+                        rotation = Scalr.Rotation.CW_270;
+                        break;
                 }
-                baos.flush();
-                MultipartFile newFile = new MockMultipartFile(file.getName(), file.getOriginalFilename(), file.getContentType(), baos.toByteArray());
-                return newFile;
             }
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            String ext = file.getContentType().contains("png") ? "png" : "jpg";
+            BufferedImage rotatedImage = originalImage;
+            if (rotation != null) {
+                rotatedImage = Scalr.rotate(originalImage, rotation);
+            }
+            if(size == SMALL_PICTURE_WIDTH){
+
+                if ( rotatedImage.getWidth() > size) {
+                    ImageIO.write(Scalr.resize(rotatedImage, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.FIT_TO_WIDTH, size), ext, baos);
+                } else {
+                    ImageIO.write(rotatedImage, ext, baos);
+                }
+            }
+            else{
+
+                if (rotatedImage.getHeight() > rotatedImage.getWidth() && rotatedImage.getHeight() > size) {
+                    ImageIO.write(Scalr.resize(rotatedImage, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.FIT_TO_HEIGHT, size, size), ext, baos);
+                } else if (rotatedImage.getHeight() < rotatedImage.getWidth() && rotatedImage.getWidth() > size) {
+                    ImageIO.write(Scalr.resize(rotatedImage, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.FIT_TO_WIDTH, size), ext, baos);
+                } else {
+                    ImageIO.write(rotatedImage, ext, baos);
+                }
+            }
+            baos.flush();
+            MultipartFile newFile = new MockMultipartFile(file.getName(), file.getOriginalFilename(), file.getContentType(), baos.toByteArray());
+            return newFile;
+
         } catch (ImageProcessingException | MetadataException e) {
             e.printStackTrace();
         }
         return file;
     }
 
-    public String storeResizedFile(MultipartFile file, String path, String name) {
+    public String[] storeResizedFile(MultipartFile file, String path, String name) {
         if (!file.getContentType().contains("image")) {
-            return null;
+            throw new RuntimeException("Rossz fájlformátum!");
         }
-        this.fileStorageLocation = Paths.get(this.path + "/" + path)
+        Path fullPath = Paths.get(this.path + "/" + path)
                 .toAbsolutePath().normalize();
+//        this.fileStorageLocation = Paths.get(this.path + "/" + path)
+//                .toAbsolutePath().normalize();
         try {
-            Files.createDirectories(this.fileStorageLocation);
+            Files.createDirectories(fullPath);
         } catch (Exception ex) {
             throw new FileStorageException("Could not create the directory where the uploaded files will be stored.", ex);
         }
         // Normalize file name
-        String concatFilename = FilenameUtils.removeExtension(file.getOriginalFilename());
+        String concatFilename = "";
+        concatFilename = FilenameUtils.removeExtension(file.getOriginalFilename());
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
-        if (concatFilename.isEmpty()) {
-            concatFilename = "";
-        }
         if (!name.isEmpty()) {
             concatFilename = concatFilename + "_" + name;
         }
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         concatFilename = concatFilename + "." + extension;
 //        concatFilename = concatFilename + "_" + timestamp.getTime() + "." + extension;
-        System.out.println(concatFilename);
+//        System.out.println(concatFilename);
         String fileName = StringUtils.cleanPath(concatFilename);
 
         try {
@@ -140,23 +155,28 @@ public class FileStorageService {
             }
 
             // Copy file to the target location (Replacing existing file with the same name)
-            Path targetLocation = this.fileStorageLocation.resolve(fileName);
+            Path targetLocation = fullPath.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
-            return fileName;
+            String[] returnString = new String[3];
+            returnString[0] = fileName;
+            returnString[1] = this.fileStorageLocation.toString();
+            returnString[2] = targetLocation.toString();
+
+            return returnString;
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
     }
 
-    public String storeImage(MultipartFile file, String path) {
+    public String[] storeImage(MultipartFile file, String path) {
         if (!file.getContentType().contains("image")) {
-            return null;
+            throw new RuntimeException("Rossz fájlformátum!");
         }
-        this.fileStorageLocation = Paths.get(this.path + "/" + path)
+        Path fullPath = Paths.get(this.path + "/" + path)
                 .toAbsolutePath().normalize();
         try {
-            Files.createDirectories(this.fileStorageLocation);
+            Files.createDirectories(fullPath);
         } catch (Exception ex) {
             throw new FileStorageException("Could not create the directory where the uploaded files will be stored.", ex);
         }
@@ -175,21 +195,25 @@ public class FileStorageService {
             }
 
             // Copy file to the target location (Replacing existing file with the same name)
-            Path targetLocation = this.fileStorageLocation.resolve(fileName);
+            Path targetLocation = fullPath.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
-            return fileName;
+            String[] returnString = new String[3];
+            returnString[0] = fileName;
+            returnString[1] = this.fileStorageLocation.toString();
+            returnString[2] = targetLocation.toString();
+            return returnString;
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
     }
 
-    public String storeFile(MultipartFile file) {
+    public String[] storeFile(MultipartFile file) {
 
-        this.fileStorageLocation = Paths.get(this.path + "/files")
+        Path path = Paths.get(this.path + "/files")
                 .toAbsolutePath().normalize();
         try {
-            Files.createDirectories(this.fileStorageLocation);
+            Files.createDirectories(path);
         } catch (Exception ex) {
             throw new FileStorageException("Could not create the directory where the uploaded files will be stored.", ex);
         }
@@ -217,18 +241,24 @@ public class FileStorageService {
             }
 
             // Copy file to the target location (Replacing existing file with the same name)
-            Path targetLocation = this.fileStorageLocation.resolve(fileName);
+            Path targetLocation = path.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
-            return fileName;
+            String[] returnString = new String[3];
+            returnString[0] = fileName;
+            returnString[1] = this.fileStorageLocation.toString();
+            returnString[2] = targetLocation.toString();
+            return returnString;
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
     }
 
-    public Resource loadFileAsResource(String fileName) {
+    public Resource loadFileAsResource(String fileName, String path) {
         try {
-            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
+            Path fullPath = Paths.get(this.path + "/" + path)
+                    .toAbsolutePath().normalize();
+            Path filePath = fullPath.resolve(fileName).normalize();
             Resource resource = new UrlResource(filePath.toUri());
 
             if (resource.exists()) {

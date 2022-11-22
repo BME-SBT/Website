@@ -1,0 +1,86 @@
+<app-nav-bar></app-nav-bar>
+<div class="gallery">
+    <div class="container col-12  col-lg-10 col-md-11 align-items-center">
+        <div class="jumbotron col-12">
+            <h1 translate class="title pb-4">GALLERY.gallery</h1>
+            <div class="align-items-center justify-content-center col-12 d-flex flex-column"
+                *ngIf="authority == 'admin'">
+                <div class="col-12 col-sm-6 col-md-6  card mb-5 ml-3 galleryform" id="galleryform">
+                    <h2 class="title pb-3">Új csoport hozzáadása</h2>
+                    <div>
+                        <form #galleryForm="ngForm">
+                            <mat-tab-group mat-align-tabs="start">
+                                <mat-tab label="MAGYAR">
+                                    <div class="form-group pt-3">
+                                        <mat-form-field class="col-8 p-0">
+                                            <input matInput name="name_hu" type="text" id="name_hu"
+                                                [(ngModel)]="newGroup.name_hu" placeholder="Cím" required />
+                                            <mat-error>Kötelező mező</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </mat-tab>
+                                <mat-tab label="ANGOL" class="pt-3">
+                                    <div class="form-group pt-3">
+                                        <mat-form-field class="col-8 p-0">
+                                            <input matInput name="name_en" type="text" id="name_en"
+                                                [(ngModel)]="newGroup.name_en" placeholder="Title" required />
+                                            <mat-error>Kötelező mező</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </mat-tab>
+                            </mat-tab-group>
+                            <div class="col-md-6 col-lg-6 col-12 pb-2">
+
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>Dátum</mat-label>
+                                        <input matInput [max]="maxDate" name="date" [matDatepicker]="date"
+                                            [(ngModel)]="newGroup.date" id="date">
+                                        <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+                                        <mat-datepicker #date></mat-datepicker>
+                                        <mat-hint>Üresen hagyva a mai dátummal lesz elmentve</mat-hint>
+                                    </mat-form-field>
+
+                                </div>
+                            </div>
+                            <a class="btn" (click)="uploadImageGroup($event, galleryForm)" href="javascript:void(0)"
+                                [ngClass]="{ disabled: !galleryForm.form.valid }"><span>Feltöltés</span></a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gallery align-content-center d-flex flex-wrap  col-12" id="photos">
+                <div *ngFor="let img of gallery" class="picture col-12 col-sm-6 col-md-4 col-lg-3">
+                    <a (click)="deleteImageGroup(img.id)" class="close" *ngIf="authority == 'admin'">&times;</a>
+                    <a [routerLink]="['/gallery', img.id]" class="card lift p-2 m-1 ">
+                        <div class="card-body m-0 p-0">
+                            <!-- <div *ngIf="authority=='admin'" class="row justify-content-end">
+                                        <a class="col-2  mr-2" (click)="deletePicture(img.id)">
+                                            <mat-icon class="update-icon bigger-icon">delete</mat-icon>
+                                        </a>
+                                    </div> -->
+                            <div class="row align-items-center p-0 m-0">
+
+                                <img src="{{img.coverImage.smallImage}}" alt="{{ img.title_hu }}" />
+
+
+                            </div>
+                            <!-- <div  (click)="openContent(longContent, news.content_hu.length > 1200)"> -->
+                            <h2 id="gallery-group-title" translate class="title mb-0 mt-2"
+                                [translateParams]="{ name_hu: img.name_hu, name_en: img.name_en}">GALLERY.name
+                            </h2>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>
