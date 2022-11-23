@@ -1,32 +1,34 @@
-FROM node:14.21 AS frontend-build
-WORKDIR /usr/src/app
+FROM node:14.21 AS frontend-dep
+WORKDIR /app
 COPY solarboat-app/package.json solarboat-app/package-lock.json  ./
 RUN npm install
-COPY solarboat-app .
 RUN npm install -g @angular/cli
+
+FROM frontend-dep AS frontend-build
+WORKDIR /app
+COPY solarboat-app .
 RUN ng build --prod
 
 
-FROM maven:3.6.3-jdk-8 AS backend
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt update && apt install -y mariadb-server
-
-WORKDIR /home/app
+FROM maven:3.8.6-eclipse-temurin-11 AS backend-dep
+WORKDIR /app
 COPY solarboat/pom.xml .
 RUN mvn install
 
-COPY solarboat/init.sql .
-RUN /etc/init.d/mysql start && mysql < init.sql 
 
+FROM backend-dep as backend-build
+WORKDIR /app
 COPY solarboat/src src
-COPY --from=frontend-build /usr/src/app/dist src/main/resources/public/
-RUN /etc/init.d/mysql start && mvn --debug -f pom.xml package
+COPY --from=frontend-build /app/dist src/main/resources/public/
+RUN mvn --debug -f pom.xml package
+
+
+FROM --platform=linux/amd64 eclipse-temurin:11.0.17_8-jre-alpine
+ENV DEBIAN_FRONTEND=noninteractive
+WORKDIR /app
+COPY --from=backend-build /app/target/solarboat-0.0.1-SNAPSHOT.jar .
 
 VOLUME /var/www/html
-
-
 EXPOSE 8080
 
-VOLUME /var/lib/mysql
-
-CMD /etc/init.d/mysql start && java -jar target/solarboat-0.0.1-SNAPSHOT.jar
+ENTRYPOINT [ "java","-Xmx2G","-jar", "solarboat-0.0.1-SNAPSHOT.jar" ]
