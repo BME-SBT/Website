@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --host 0.0.0.0",
     "build": "node --max_old_space_size=8096 ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.901.9",
-    "@angular/cli": "~9.0.3",
+    "@angular/cli": "~9.0.2",
     "@angular/compiler-cli": "~9.0.2",
     "@angular/language-service": "~9.0.2",
     "@types/jasmine": "^3.5.14",
