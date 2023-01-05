@@ -221,34 +221,50 @@ export class SponsorsComponent implements OnInit {
 
     dropMain(event: CdkDragDrop<Sponsor[]>) {
         moveItemInArray(this.allSponsors.main, event.previousIndex, event.currentIndex);
-        this.updateSponsors();
+        this.updateSponsors(this.allSponsors.main);
     }
 
     dropTop(event: CdkDragDrop<Sponsor[]>) {
         moveItemInArray(this.allSponsors.top, event.previousIndex, event.currentIndex);
-        this.updateSponsors();
+        this.updateSponsors(this.allSponsors.top);
     }
 
     dropOther(event: CdkDragDrop<Sponsor[]>) {
         moveItemInArray(this.allSponsors.other, event.previousIndex, event.currentIndex);
-        this.updateSponsors();
+        this.updateSponsors(this.allSponsors.other);
     }
 
     dropPartner(event: CdkDragDrop<Sponsor[]>) {
         moveItemInArray(this.allSponsors.partner, event.previousIndex, event.currentIndex);
-        this.updateSponsors();
+        this.updateSponsors(this.allSponsors.partner);
     }
 
-    updateSponsors() {
+    updateSponsors(sponsors) {
         this.sponsorListToUpdateOrder = [];
-        this.setOrderNumber(this.allSponsors.main);
-        this.setOrderNumber(this.allSponsors.top);
-        this.setOrderNumber(this.allSponsors.other);
-        this.setOrderNumber(this.allSponsors.partner);
+        this.setOrderNumber(sponsors);
+
 
         this.sponsorService.updateOrder(this.sponsorListToUpdateOrder).subscribe(
             (data) => {
-                // do something, if upload success
+                this.allSponsors = data;
+                this.allSponsors.main.forEach(
+                    (s) => (s.picture = this.globals.IMG_ROUTE + "sponsors/" + s.picture)
+                );
+                this.allSponsors.top.forEach(
+                    (s) => (s.picture = this.globals.IMG_ROUTE + "sponsors/" +s.picture)
+                );
+                this.allSponsors.uni.forEach(
+                    (s) => {(s.picture = this.globals.IMG_ROUTE + "sponsors/"+s.picture);
+                    console.log(this.allSponsors.uni);
+                }
+                );
+                this.allSponsors.other.forEach(
+                    (s) => (s.picture = this.globals.IMG_ROUTE + "sponsors/"+s.picture)
+                );
+                this.allSponsors.partner.forEach(
+                    (s) => (s.picture = this.globals.IMG_ROUTE + "sponsors/"+ s.picture)
+                );
+                this.splitSponsors();
                 this.showSuccess('Sikeres sorrend módosítás');
             },
             (error) => {
@@ -263,6 +279,8 @@ export class SponsorsComponent implements OnInit {
         sponsorsToAdd.forEach(s => {
             s.orderNumber = i;
             i++;
+            s.picture= s.picture.split(this.globals.IMG_ROUTE + "sponsors/").join("");
+            console.log(s.picture);
             this.sponsorListToUpdateOrder.push(s);
         });
     }
