@@ -1,0 +1,12 @@
+FROM node:14.21 AS frontend-dep
+WORKDIR /app
+COPY package.json package-lock.json  ./
+RUN npm install
+RUN npm install -g @angular/cli
+
+FROM frontend-dep AS frontend-run
+WORKDIR /app
+COPY . .
+RUN ng build
+EXPOSE 4200
+ENTRYPOINT [ "npm","run","start"]

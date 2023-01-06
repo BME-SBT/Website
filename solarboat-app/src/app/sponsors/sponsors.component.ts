@@ -33,6 +33,7 @@ export class SponsorsComponent implements OnInit {
     }
 
     allSponsors: AllSponsors;
+    SPONSOR_URL_BASE = this.globals.IMG_ROUTE + "sponsors"
     sponsorListToUpdateOrder: Sponsor[];
     main: Sponsor[] = [];
     top: Sponsor[] = [];
@@ -54,23 +55,6 @@ export class SponsorsComponent implements OnInit {
         this.sponsorService.getSponsors().subscribe(
             (res) => {
                 this.allSponsors = res;
-                this.allSponsors.main.forEach(
-                    (s) => (s.picture = this.globals.IMG_ROUTE + "sponsors/" + s.picture)
-                );
-                this.allSponsors.top.forEach(
-                    (s) => (s.picture = this.globals.IMG_ROUTE + "sponsors/" +s.picture)
-                );
-                this.allSponsors.uni.forEach(
-                    (s) => {(s.picture = this.globals.IMG_ROUTE + "sponsors/"+s.picture);
-                    console.log(this.allSponsors.uni);
-                }
-                );
-                this.allSponsors.other.forEach(
-                    (s) => (s.picture = this.globals.IMG_ROUTE + "sponsors/"+s.picture)
-                );
-                this.allSponsors.partner.forEach(
-                    (s) => (s.picture = this.globals.IMG_ROUTE + "sponsors/"+ s.picture)
-                );
                 this.splitSponsors();
             },
             (err) => {
@@ -247,23 +231,6 @@ export class SponsorsComponent implements OnInit {
         this.sponsorService.updateOrder(this.sponsorListToUpdateOrder).subscribe(
             (data) => {
                 this.allSponsors = data;
-                this.allSponsors.main.forEach(
-                    (s) => (s.picture = this.globals.IMG_ROUTE + "sponsors/" + s.picture)
-                );
-                this.allSponsors.top.forEach(
-                    (s) => (s.picture = this.globals.IMG_ROUTE + "sponsors/" +s.picture)
-                );
-                this.allSponsors.uni.forEach(
-                    (s) => {(s.picture = this.globals.IMG_ROUTE + "sponsors/"+s.picture);
-                    console.log(this.allSponsors.uni);
-                }
-                );
-                this.allSponsors.other.forEach(
-                    (s) => (s.picture = this.globals.IMG_ROUTE + "sponsors/"+s.picture)
-                );
-                this.allSponsors.partner.forEach(
-                    (s) => (s.picture = this.globals.IMG_ROUTE + "sponsors/"+ s.picture)
-                );
                 this.splitSponsors();
                 this.showSuccess('Sikeres sorrend módosítás');
             },
@@ -279,7 +246,6 @@ export class SponsorsComponent implements OnInit {
         sponsorsToAdd.forEach(s => {
             s.orderNumber = i;
             i++;
-            s.picture= s.picture.split(this.globals.IMG_ROUTE + "sponsors/").join("");
             console.log(s.picture);
             this.sponsorListToUpdateOrder.push(s);
         });
