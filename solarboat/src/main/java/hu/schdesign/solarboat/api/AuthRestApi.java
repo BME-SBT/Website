@@ -55,17 +55,17 @@ public class AuthRestApi {
 //        return new ResponseEntity<>(new ResponseMessage("Roles have been succesfully removed!"),
 //                HttpStatus.OK);
 //    }
-//    @PostMapping("/setup/roles")
-//    public ResponseEntity<?> setupRoles() {
-//
-//        //hozzáadom a használt szerepeket
-//        roleRepository.save(new Role(RoleName.ROLE_ADMIN));
-//        roleRepository.save(new Role(RoleName.ROLE_USER));
-//        roleRepository.save(new Role(RoleName.ROLE_EDITOR));
-//
-//        return new ResponseEntity<>(new ResponseMessage("Admin, editor and user roles successfully added!"),
-//                HttpStatus.OK);
-//    }
+    @PostMapping("/setup/roles")
+    public ResponseEntity<?> setupRoles() {
+
+        //hozzáadom a használt szerepeket
+        roleRepository.save(new Role(RoleName.ROLE_ADMIN));
+        roleRepository.save(new Role(RoleName.ROLE_USER));
+        roleRepository.save(new Role(RoleName.ROLE_EDITOR));
+
+        return new ResponseEntity<>(new ResponseMessage("Admin, editor and user roles successfully added!"),
+                HttpStatus.OK);
+    }
     @PostMapping("/setup/admin")
     public ResponseEntity<?> setupAdmin() {
 
@@ -76,13 +76,11 @@ public class AuthRestApi {
         }
 
         //hozzáadom az új szerepkört
-        roleRepository.save(new Role(RoleName.ROLE_EDITOR));
+//        roleRepository.save(new Role(RoleName.ROLE_EDITOR));
 
         //hozzáadom az admint
-        //username: sbt-admin
-        //password: uszikAhajo!
         User user = new User("SBT Admin User", "sbt-admin", "sbtadmin@solarboatteam.hu",
-                encoder.encode("uszikAhajo!"));
+                encoder.encode("ezleszajelszo!"));
 
         Set<Role> roles = new HashSet<>();
         Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)

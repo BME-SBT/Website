@@ -114,9 +114,9 @@
                     <div *ngFor="let img of gallery.images" class="picture">
                         <a (click)="deletePicture(img.id)" class="close" *ngIf="authority == 'admin'">&times;</a>
 
-                        <a href="{{ img.image }}" data-lightbox="gallery">
+                        <a href="{{GALLERY_URL_BASE}}/{{ img.image }}" data-lightbox="gallery">
                             <div class="img-wrap">
-                                <img src="{{ img.smallImage }}" alt="{{ img.title_hu }}" />
+                                <img src="{{GALLERY_URL_BASE}}/{{ img.smallImage }}" alt="{{ img.title_hu }}" />
                             </div>
                         </a>
                     </div>
@@ -127,9 +127,9 @@
                     <div *ngFor="let img of gallery.images" class="picture">
                         <a (click)="deletePicture(img.id)" class="close" *ngIf="authority == 'admin'">&times;</a>
 
-                        <a href="{{ img.smallImage }}" data-lightbox="gallery">
+                        <a href="{{GALLERY_URL_BASE}}/{{ img.smallImage }}" data-lightbox="gallery">
                             <div class="img-wrap">
-                                <img src="{{ img.smallImage }}" alt="{{ img.title_hu }}" />
+                                <img src="{{GALLERY_URL_BASE}}/{{ img.smallImage }}" alt="{{ img.title_hu }}" />
                             </div>
                         </a>
                     </div>

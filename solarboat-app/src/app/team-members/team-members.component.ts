@@ -11,11 +11,11 @@ export class TeamMembersComponent implements OnInit {
   @Input() members: Member[];
   @Input() leader: Member;
   @Input() isLeader: boolean;
-  imgRoute = '';
+  TEAM_URL_BASE = '';
   constructor(private globals: Globals) {}
 
   ngOnInit(): void {
-    this.imgRoute = this.globals.IMG_ROUTE;
+    this.TEAM_URL_BASE = this.globals.IMG_ROUTE + "/members";
     const elements = document.querySelectorAll('.animate-me');
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {

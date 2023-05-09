@@ -91,13 +91,13 @@ public class NewsController {
 
     @Secured("ROLE_EDITOR")
     @DeleteMapping(path = "{id}")
-    public void deleteNewsById(@PathVariable("id") Long id) {
+    public void deleteNewsById(@PathVariable("id") Long id) throws Exception {
         newsService.deleteNewsById(id);
     }
 
     @Secured("ROLE_EDITOR")
     @PutMapping()
-    public void updateNewsById(@Valid @RequestBody News news) {
+    public void updateNewsById(@Valid @RequestBody News news) throws Exception {
         newsService.updateNews(news);
     }
 }

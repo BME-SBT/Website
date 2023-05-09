@@ -37,7 +37,7 @@ public class SponsorController {
 //    }
     @Secured("ROLE_EDITOR")
     @DeleteMapping(path = "{id}")
-    public void deleteSponsorById(@PathVariable("id") Long id){
+    public void deleteSponsorById(@PathVariable("id") Long id) throws Exception {
         sponsorService.deleteSponsorById(id);
     }
 

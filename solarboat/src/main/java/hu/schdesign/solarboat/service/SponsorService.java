@@ -12,10 +12,14 @@ import java.util.Optional;
 @Service
 public class SponsorService {
     private final SponsorRepository sponsorRepository;
+    private final FileStorageService fileStorageService;
+    private final String PATH = "sponsors";
+
 
     @Autowired
-    SponsorService(SponsorRepository sponsorRepository) {
+    SponsorService(SponsorRepository sponsorRepository, FileStorageService fileStorageService) {
         this.sponsorRepository = sponsorRepository;
+        this.fileStorageService = fileStorageService;
     }
 
     public Sponsor addSponsor(Sponsor sponsor) {
@@ -58,7 +62,9 @@ public class SponsorService {
 //        return sponsorRepository.findAll();
 //    }
 
-    public void deleteSponsorById(Long id) {
+    public void deleteSponsorById(Long id) throws Exception {
+        Sponsor sponsor = sponsorRepository.findById(id).orElseThrow(() -> new Exception("Nem létezik ilyen szponzor"));
+        fileStorageService.deleteFile(sponsor.getPicture(),this.PATH);
         sponsorRepository.deleteById(id);
     }
 

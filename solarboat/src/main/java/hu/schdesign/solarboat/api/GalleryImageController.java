@@ -29,34 +29,37 @@ public class GalleryImageController {
 
     @Secured("ROLE_EDITOR")
     @PostMapping()
-    public ImageGroup addImageGroup(@RequestBody ImageGroup imageGroup){
+    public ImageGroup addImageGroup(@RequestBody ImageGroup imageGroup) {
         return galleryImageService.createImageGroup(imageGroup);
     }
 
     @Secured("ROLE_EDITOR")
     @DeleteMapping(path = "{id}")
-    public void deleteImageGroup(@PathVariable("id") Long id){
-         galleryImageService.deleteImageGroupById(id);
+    public void deleteImageGroup(@PathVariable("id") Long id) {
+        galleryImageService.deleteImageGroupById(id);
     }
 
     @GetMapping(path = "{id}")
-    public Optional<ImageGroup> getImageGroup(@PathVariable("id") Long id){
+    public Optional<ImageGroup> getImageGroup(@PathVariable("id") Long id) {
         return galleryImageService.getImageGroupById(id);
     }
+
     @GetMapping()
-    public Iterable<ResponseImageGroup> getAllImageGroups(){
+    public Iterable<ResponseImageGroup> getAllImageGroups() {
         return galleryImageService.getImageGroups();
     }
+
     @Secured("ROLE_EDITOR")
     @PatchMapping(path = "cover/{imageGroupId}")
-    public ImageGroup setImageGroupCover(@PathVariable("imageGroupId") Long imageGroupId, @RequestBody Image image){
+    public ImageGroup setImageGroupCover(@PathVariable("imageGroupId") Long imageGroupId, @RequestBody Image image) {
         return galleryImageService.setCoverImage(imageGroupId, image.getId());
     }
+
     @Secured("ROLE_EDITOR")
     @PostMapping("/")//(consumes = "application/json", produces = "application/json")
     public ResponseEntity<Image> addImage(@RequestParam("file") MultipartFile file, @RequestParam("imageGroupId") Long groupId) throws URISyntaxException {
-        if(file != null){
-            if (!Objects.requireNonNull(file.getContentType()).contains("image")){
+        if (file != null) {
+            if (!Objects.requireNonNull(file.getContentType()).contains("image")) {
                 HttpHeaders responseHeaders = new HttpHeaders();
                 responseHeaders.setLocation(new URI("/uploadFile"));
                 responseHeaders.set("Error", "The file is not an image");
@@ -72,26 +75,25 @@ public class GalleryImageController {
             responseHeaders.setLocation(new URI("/uploadFile"));
             responseHeaders.set("Error", "The file is not an image");
             return new ResponseEntity<>(null, responseHeaders, HttpStatus.BAD_REQUEST);
-
         }
-
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(new URI("uploadFile"));
-        return new ResponseEntity<>(image, responseHeaders ,HttpStatus.CREATED);
+        return new ResponseEntity<>(image, responseHeaders, HttpStatus.CREATED);
     }
+
     @Secured("ROLE_EDITOR")
     @PostMapping("/images")//(consumes = "application/json", produces = "application/json")
     public ResponseEntity<ImageGroup> addImages(@RequestParam("files") MultipartFile[] files, @RequestParam("imageGroupId") Long groupId) throws URISyntaxException {
-        for(MultipartFile file : files ){
+        for (MultipartFile file : files) {
 
-        if(file != null){
-            if (!Objects.requireNonNull(file.getContentType()).contains("image")){
-                HttpHeaders responseHeaders = new HttpHeaders();
-                responseHeaders.setLocation(new URI("/uploadFile"));
-                responseHeaders.set("Error", "The file is not an image");
-                return new ResponseEntity<>(null, responseHeaders, HttpStatus.BAD_REQUEST);
+            if (file != null) {
+                if (!Objects.requireNonNull(file.getContentType()).contains("image")) {
+                    HttpHeaders responseHeaders = new HttpHeaders();
+                    responseHeaders.setLocation(new URI("/uploadFile"));
+                    responseHeaders.set("Error", "The file is not an image");
+                    return new ResponseEntity<>(null, responseHeaders, HttpStatus.BAD_REQUEST);
+                }
             }
-        }
         }
         ImageGroup imageGroup;
         try {
@@ -106,30 +108,24 @@ public class GalleryImageController {
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(new URI("uploadFile"));
-        return new ResponseEntity<>(imageGroup, responseHeaders ,HttpStatus.CREATED);
+        return new ResponseEntity<>(imageGroup, responseHeaders, HttpStatus.CREATED);
     }
+
     @Secured("ROLE_EDITOR")
     @DeleteMapping(path = "{imageGroupId}/{imageId}")
-    public void deleteImage(@PathVariable("imageGroupId") Long imageGroupId, @PathVariable("imageId") Long imageId){
+    public void deleteImage(@PathVariable("imageGroupId") Long imageGroupId, @PathVariable("imageId") Long imageId) {
         galleryImageService.deleteImageById(imageGroupId, imageId);
     }
+
     @Secured("ROLE_EDITOR")
     @PostMapping(path = "/video/{imageGroupId}")
-    public ResponseEntity<VideoLink>  addVideoLink(@RequestBody VideoLink link, @PathVariable("imageGroupId") Long imageGroupId){
+    public ResponseEntity<VideoLink> addVideoLink(@RequestBody VideoLink link, @PathVariable("imageGroupId") Long imageGroupId) {
         return ResponseEntity.ok(galleryImageService.addVideo(link, imageGroupId));
     }
 
     @Secured("ROLE_EDITOR")
     @DeleteMapping(path = "/video/{imageGroupId}/{videoId}")
-    public void deleteVideo(@PathVariable("imageGroupId") Long imageGroupId, @PathVariable("videoId") Long videoId){
+    public void deleteVideo(@PathVariable("imageGroupId") Long imageGroupId, @PathVariable("videoId") Long videoId) {
         galleryImageService.deleteVideoById(imageGroupId, videoId);
     }
-
-
-
-
-
-
-
-
 }

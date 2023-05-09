@@ -81,7 +81,7 @@ export class AchievementsComponent implements OnInit {
       place_hu: this.form.place_hu,
       place_en: this.form.place_en,
       isLast: false,
-      picture: this.globals.IMG_ROUTE + 'achievement/' + this.form.picture.name
+      picture: this.form.picture.name
     };
     this.achievementService.addAchievement(o).subscribe(
         (res) => {

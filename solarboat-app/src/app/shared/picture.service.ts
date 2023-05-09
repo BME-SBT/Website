@@ -22,7 +22,7 @@ export class PictureService {
         return this.http.post(this.BASE_URL.concat("/api/file/uploadFile"), formData);
     }
 
-    postMultipleFiles(filesToUpload: File[], directory: string) {
+    postMultipleFiles(filesToUpload: File[], directory: string): Observable<any> {
         const formData: FormData = new FormData();
 
         for (let file of filesToUpload) {

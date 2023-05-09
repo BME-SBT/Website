@@ -1,6 +1,6 @@
 <div class="timeline-badge">
-    <img *ngIf="achievement.isLast" class="last-one" src="../../assets/achievement/cake.png" width="35"/>
-    <img *ngIf="!achievement.isLast" src="../../assets/achievement/logo.png" width="35"/>
+    <img *ngIf="achievement.isLast" class="last-one" src="{{ACHIEVEMENT_URL_BASE}}/cake.png" width="35"/>
+    <img *ngIf="!achievement.isLast" src="{{ACHIEVEMENT_URL_BASE}}/logo.png" width="35"/>
 </div>
 <div class="timeline-panel pl-md-5 pr-md-5 pl-lg-5 pr-lg-5 pb-4 pr-3">
     <div class="timeline-heading ">
@@ -34,7 +34,7 @@
         <div *ngIf="achievement.place_hu" class="img__overlay place" translate
              [translateParams]="{place_hu: achievement.place_hu, place_en: achievement.place_en}">ACHIEVEMENTS.place
         </div>
-        <img [src]="achievement.picture"/>
+        <img src="{{ACHIEVEMENT_URL_BASE}}/{{achievement.picture}}"/>
     </a>
 </div>
 

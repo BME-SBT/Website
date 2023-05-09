@@ -64,6 +64,7 @@ export class NewsComponent implements OnInit {
     ngOnInit(): void {
         this.getNews();
         this.checkAuth();
+
     }
 
     onSubmit(empForm: any, event: Event) {
@@ -78,20 +79,24 @@ export class NewsComponent implements OnInit {
             pictures: this.files.length > 0 ? this.getImageUris() : null
         };
         if (this.files.length > 0) {
+            this.saveNews(empForm, news);
             this.pictureService.postMultipleFiles(this.files, 'news').subscribe(
                 (data) => {
-                    this.saveNews(empForm, news);
+                    this.showSuccess('Sikeres mentés');
                 },
                 (error) => {
                     this.showError(error.message, 'Hiba a fájlfeltöltéskor');
                 }
             );
         } else {
+
             this.saveNews(empForm, news);
         }
     }
 
     private saveNews(empForm: any, news) {
+        console.log(empForm);
+        console.log(news);
         this.apiService.addNews(news).subscribe(
             (data) => {
                 this.showSuccess('Sikeres mentés');
@@ -173,10 +178,17 @@ export class NewsComponent implements OnInit {
 
     }
 
+    // private getImageUris() {
+    //     let pictures: string[] = [];
+    //     for (let image of this.files) {
+    //         pictures.push(this.globals.IMG_ROUTE + 'news/' + image.name);
+    //     }
+    //     return pictures;
+    // }
     private getImageUris() {
         let pictures: string[] = [];
         for (let image of this.files) {
-            pictures.push(this.globals.IMG_ROUTE + 'news/' + image.name);
+            pictures.push(image.name);
         }
         return pictures;
     }

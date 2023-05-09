@@ -106,7 +106,7 @@ public class TeamService {
             }
             Iterable<Member> members = team.getMembers();
             for (Member member : members) {
-                if (member.getId() == id) {
+                if (Objects.equals(member.getId(), id)) {
                     teamMemberPairsToRemove.put(team.getId(), member.getId());
                 }
             }

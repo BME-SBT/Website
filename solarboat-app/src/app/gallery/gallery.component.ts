@@ -55,6 +55,7 @@ export class GalleryComponent implements OnInit {
     // fileToUpload: File;
     files: File[] = [];
     private galleryId;
+    GALLERY_URL_BASE = this.globals.IMG_ROUTE + "gallery"
 
     ngOnInit(): void {
         // AOS.init();
@@ -105,10 +106,10 @@ export class GalleryComponent implements OnInit {
     loadGallery() {
         this.galleryService.getGalleryById(this.galleryId).subscribe((res) => {
             this.gallery = res;
-            this.gallery.images.forEach((s) => {
-                s.image = this.globals.IMG_ROUTE + "gallery/"+s.image;
-                s.smallImage = this.globals.IMG_ROUTE + "gallery/"+s.smallImage
-            });
+            // this.gallery.images.forEach((s) => {
+            //     s.image = this.globals.IMG_ROUTE + "gallery/"+s.image;
+            //     s.smallImage = this.globals.IMG_ROUTE + "gallery/"+s.smallImage
+            // });
         });
     }
 

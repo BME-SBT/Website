@@ -37,6 +37,7 @@ export class AchievementComponent implements OnInit {
     maxDate: Date;
     animal: string;
     name: string;
+    ACHIEVEMENT_URL_BASE = this.globals.IMG_ROUTE + "/achievement";
 
     ngOnInit(): void {
         this.form.title_hu = this.achievement.title_hu;
@@ -56,7 +57,6 @@ export class AchievementComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 this.onRemove.emit(this.achievement);
-                // TODO: kép törlése
                 this.apiService.deleteAchievement(id).subscribe(
                     (res) => {
                         this.showSuccess('Sikeres törlés');
@@ -94,7 +94,7 @@ export class AchievementComponent implements OnInit {
             place_hu: this.form.place_hu,
             place_en: this.form.place_en,
             isLast: false,
-            picture: this.files.length > 0 ? this.globals.IMG_ROUTE + 'achievement/' + this.files[0].name : this.achievement.picture
+            picture: this.files.length > 0 ? this.files[0].name : this.achievement.picture
         };
         if (this.files.length > 0) {
             this.pictureService.postFile(this.form.picture, 'achievement').subscribe(

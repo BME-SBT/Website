@@ -64,7 +64,7 @@ public class FileController {
 
     @Secured("ROLE_USER")
     @PostMapping("/api/file/uploadFile")
-    public ResponseEntity<UploadFileResponse> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("path") String path) throws URISyntaxException {
+    public ResponseEntity<UploadFileResponse> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("path") String path) throws URISyntaxException, IOException {
         System.out.println(path);
         String fileName;
         String[] returnValues;
@@ -103,6 +103,8 @@ public class FileController {
                         return uploadFile(file, path);
                     } catch (URISyntaxException e) {
                         throw new CustomMessageApiException("Nem megengedett fájlformátum");
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
                 })
                 .collect(Collectors.toList());

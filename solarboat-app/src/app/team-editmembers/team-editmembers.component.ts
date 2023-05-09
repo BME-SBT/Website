@@ -16,12 +16,10 @@ import {Globals} from "../globals";
 })
 export class TeamEditmembersComponent implements OnInit {
     members: Member[] = [];
-
-
     form: any = {};
     files: File[] = [];
     picturesSelected = false;
-    imgRoute = '';
+    TEAM_URL_BASE = '';
 
     constructor(private toastr: ToastrService,
                 private apiService: TeamService,
@@ -33,7 +31,7 @@ export class TeamEditmembersComponent implements OnInit {
 
     ngOnInit(): void {
         this.getMembers();
-        this.imgRoute = this.globals.IMG_ROUTE;
+        this.TEAM_URL_BASE = this.globals.IMG_ROUTE + "/members";
     }
 
     getMembers() {
@@ -66,7 +64,7 @@ export class TeamEditmembersComponent implements OnInit {
         if (this.picturesSelected) {
             this.pictureService.postFile(this.form.picture, 'members').subscribe(
                 (data) => {
-                    this.form.picture = this.globals.IMG_ROUTE + 'members/' + this.form.picture.name;
+                    this.form.picture =  this.form.picture.name;
                     this.updateMember();
                 },
                 (error) => {
@@ -94,7 +92,7 @@ export class TeamEditmembersComponent implements OnInit {
     onSubmitAddForm(AddForm: any) {
         this.pictureService.postFile(this.form.picture, 'members').subscribe(
             (data) => {
-                this.form.picture = this.globals.IMG_ROUTE + 'members/' + this.form.picture.name;
+                this.form.picture = this.form.picture.name;
                 this.addMember();
             },
             (error) => {
@@ -117,6 +115,7 @@ export class TeamEditmembersComponent implements OnInit {
     }
 
     deleteMember(id: any) {
+        this.modalService.dismissAll('delete');
         const dialogRef = this.dialog.open(ConfirmDialogComponent, {
             width: '300px',
             data: 'Biztosan ki szeretnéd törölni a csapattagot?'

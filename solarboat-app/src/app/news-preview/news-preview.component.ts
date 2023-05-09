@@ -31,7 +31,9 @@ export class NewsPreviewComponent implements OnInit {
     @Input() authority: string;
     @Input() news: News;
     @Output() onRemove = new EventEmitter<News>();
-    config: AngularEditorConfig = {
+    NEWS_URL_BASE = this.globals.IMG_ROUTE + "/news";
+    imgRoute;
+        config: AngularEditorConfig = {
         editable: true,
         spellcheck: true,
         sanitize: false,
@@ -81,6 +83,8 @@ export class NewsPreviewComponent implements OnInit {
     }
 
     ngOnInit(): void {
+       
+
         this.shortArticleHu = this.decodeEntities(this.news.content_hu.replace(/<[^>]+>/g, ''));
         this.shortArticleHu = this.shortArticleHu.substring(0, 100) + '...';
         this.shortArticleEn = this.decodeEntities(this.news.content_en.replace(/<[^>]+>/g, ''));
@@ -184,7 +188,7 @@ export class NewsPreviewComponent implements OnInit {
     private getImageUris() {
         let pictures: string[] = [];
         for (let image of this.files) {
-            pictures.push(this.globals.IMG_ROUTE + 'news/' + image.name);
+            pictures.push(image.name);
         }
         return pictures;
     }

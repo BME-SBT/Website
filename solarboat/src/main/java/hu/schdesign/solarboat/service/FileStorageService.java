@@ -169,7 +169,8 @@ public class FileStorageService {
         }
     }
 
-    public String[] storeImage(MultipartFile file, String path) {
+    public String[] storeImage(MultipartFile file, String path) throws IOException {
+        file = this.resizeImage(file, path, this.PICTURE_WIDTH);
         if (!file.getContentType().contains("image")) {
             throw new RuntimeException("Rossz fájlformátum!");
         }

@@ -34,7 +34,7 @@ public class AchievementController {
     }
     @Secured("ROLE_EDITOR")
     @DeleteMapping(path = "{id}")
-    public void deleteAchievementById(@PathVariable("id") Long id){
+    public void deleteAchievementById(@PathVariable("id") Long id) throws Exception {
         achievementService.deleteAchievementById(id);
     }
     @Secured("ROLE_EDITOR")

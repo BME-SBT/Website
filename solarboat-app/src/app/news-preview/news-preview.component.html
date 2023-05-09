@@ -29,7 +29,7 @@
             </div>
             <div *ngIf="news.pictures && news.pictures.length>0" class="row mt-4 align-items-center">
                 <div class="col-12 single-picture">
-                    <img [src]="news.pictures[0]" alt="logo" title="logo"/>
+                    <img src="{{ NEWS_URL_BASE }}/{{ news.pictures[0] }}" alt="logo" title="logo"/>
                 </div>
       
             </div>
@@ -68,7 +68,7 @@
 <!--        </div>-->
         <mdb-carousel id="picture-slide" [animation]="'slide'"  [interval]="'0'" class="mt-4">
             <mdb-carousel-item *ngFor="let picture of news.pictures">
-                <img class="d-block w-100" [src]="picture">
+                <img class="d-block w-100" src="{{ NEWS_URL_BASE }}/{{ picture }}">
             </mdb-carousel-item>
         </mdb-carousel>
     </div>

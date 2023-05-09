@@ -55,7 +55,7 @@ public class MemberController {
 
     @Secured("ROLE_EDITOR")
     @DeleteMapping(path = "{id}")
-    public void deleteMemberById(@PathVariable("id") Long id) {
+    public void deleteMemberById(@PathVariable("id") Long id) throws Exception {
         teamService.deleteMemberFromEveryTeamIfNotLeader(id);
         memberService.deleteMemberById(id);
     }
