@@ -1,8 +1,9 @@
 FROM node:14.21 AS frontend-dep
 WORKDIR /app
-COPY solarboat-app/package.json solarboat-app/package-lock.json  ./
+COPY solarboat-app/package.json ./ 
+# COPY solarboat-app/package-lock.json  ./
 RUN npm install
-RUN npm install -g @angular/cli
+RUN npm install -g @angular/cli@9
 
 FROM frontend-dep AS frontend-build
 WORKDIR /app
